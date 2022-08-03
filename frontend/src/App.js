@@ -24,27 +24,29 @@ const Wrapper = styled.div`
 function App() {
   // const [darkMode, setDarkMode] = useState(true);
   return (
-    <ThemeProvider>
-      <Container>
-        <BrowserRouter>
-          <Menu />
-          <Main>
-            <Navbar />
-            <Wrapper>
-              <Routes>
-                <Route path="/">
-                  <Route index element={<Home />} />
-                  <Route path="signin" element={<SignIn />} />
-                  <Route path="video">
-                    <Route path=":id" element={<Video />} />
-                  </Route>
+    // <ThemeProvider>
+    <Container>
+      <BrowserRouter>
+        <Menu />
+        <Main>
+          <Navbar />
+          <Wrapper>
+            <Routes>
+              <Route path="/">
+                <Route index element={<Home type="random" />} />
+                <Route path="trend" element={<Home type="trends" />} />
+                <Route path="subscriptions" element={<Home type="sub" />} />
+                <Route path="signin" element={<SignIn />} />
+                <Route path="video">
+                  <Route path=":id" element={<Video />} />
                 </Route>
-              </Routes>
-            </Wrapper>
-          </Main>
-        </BrowserRouter>
-      </Container>
-    </ThemeProvider>
+              </Route>
+            </Routes>
+          </Wrapper>
+        </Main>
+      </BrowserRouter>
+    </Container>
+    // </ThemeProvider>
   );
 }
 

@@ -62,6 +62,7 @@ const unSubscrie = asyncHandler(async (req, res) => {
 
 const like = asyncHandler(async (req, res) => {
   const id = req.user.id;
+  console.log(id);
   const videoId = req.params.videoId;
   await Video.findByIdAndUpdate(videoId, {
     $addToSet: { likes: id },

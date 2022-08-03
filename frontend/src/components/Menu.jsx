@@ -8,6 +8,7 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 const Container = styled.div`
   flex: 1;
   background-color: #181818;
@@ -55,6 +56,8 @@ const Button = styled.button`
   gap: 5px;
 `;
 const Menu = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <Container>
       <Wrapper>
@@ -66,14 +69,21 @@ const Menu = () => {
           <HomeIcon />
           Home
         </Item>
-        <Item>
-          <ExploreIcon />
-          explore
-        </Item>
-        <Item>
-          <SubscriptionsIcon />
-          subs
-        </Item>
+        <Link to="trend" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <ExploreIcon />
+            explore
+          </Item>
+        </Link>
+        <Link
+          to="subscriptions"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Item>
+            <SubscriptionsIcon />
+            subs
+          </Item>
+        </Link>
         <Hr></Hr>
 
         <Item>
@@ -89,16 +99,19 @@ const Menu = () => {
           <LightModeIcon />
           light mode
         </Item>
-        <Hr></Hr>
-        <Login>
-          Sing i to like videos,comment and subscribe.
-          <Link to="signIn" style={{ textDecoration: "none" }}>
-            <Button>
-              <AccountCircleIcon />
-              SIGN IN
-            </Button>
-          </Link>
-        </Login>
+        {!currentUser && (
+          <>
+            <Login>
+              Sing i to like videos,comment and subscribe.
+              <Link to="signIn" style={{ textDecoration: "none" }}>
+                <Button>
+                  <AccountCircleIcon />
+                  SIGN IN
+                </Button>
+              </Link>
+            </Login>
+          </>
+        )}
       </Wrapper>
     </Container>
   );

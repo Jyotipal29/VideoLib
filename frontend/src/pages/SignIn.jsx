@@ -1,5 +1,9 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { api } from "../constants/api";
+import { useDispatch } from "react-redux";
+import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -39,18 +43,44 @@ const Button = styled.button`
 `;
 // const More = styled.div``;
 const SignIn = () => {
+  const [name, setName] = useState(" ");
+  const [email, setEmail] = useState(" ");
+  const [password, setPassword] = useState(" ");
+  const dispatch = useDispatch();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    dispatch(loginStart());
+    try {
+      const res = await axios.post(`${api}auth/signin`, { email, password });
+      // console.log(res.data);
+      dispatch(loginSuccess(res.data));
+    } catch (err) {
+      dispatch(loginFailure());
+    }
+  };
   return (
     <Container>
       <Wrapper>
         <Title>Sign In</Title>
         <Subtitel>to continue to lama dev</Subtitel>
-        <Input placeholder="username" />
-        <Input type="password" placeholder="password" />
-        <Button>Sign In</Button>
+        <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
+        <Input
+          type="password"
+          placeholder="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button onClick={handleLogin}>Sign In</Button>
         <Title>or</Title>
-        <Input placeholder="username" />
-        <Input placeholder="email" />
-        <Input type="password" placeholder="password" />
+        <Input
+          placeholder="username"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
+        <Input
+          type="password"
+          placeholder="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <Button>Sign up</Button>
       </Wrapper>
     </Container>
