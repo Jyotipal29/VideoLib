@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { format } from "timeago.js";
 import { api } from "../constants/api";
+import { useVideo } from "../context/videoContext/videoContext";
 const Container = styled.div`
   width: ${(props) => props.type !== "sm" && "360px"};
   margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "45px")};
@@ -51,29 +52,16 @@ const Info = styled.div`
   color: black;
 `;
 
-const Card = ({ type, video }) => {
-  // console.log("55", video);
-  const [channel, setChannel] = useState({});
-  useEffect(() => {
-    const fetchChannel = async () => {
-      const res = await axios.get(`${api}users/find/${video.userId}`);
-      setChannel(res.data);
-      // console.log(res.data);
-    };
-    fetchChannel();
-  }, []);
+const Card = ({ video }) => {
+  const clickHandler = () => {};
   return (
-    <Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
-      <Container type={type}>
-        <Image type={type} src={video.imgUrl} />
-        <Details type={type}>
-          <ChannelImage type={type} src={channel.img} />
+    <Link to={`/videos/${video._id}`} style={{ textDecoration: "none" }}>
+      <Container onClick={clickHandler}>
+        <Image src={video.thumbnailUrl} />
+        <Details>
           <Texts>
             <Title>{video.title}</Title>
-            <ChannelName>{channel.name}</ChannelName>
-            <Info>
-              {video.views} views {format(video.createdAt)}
-            </Info>
+            <ChannelName>{video.creator}</ChannelName>
           </Texts>
         </Details>
       </Container>

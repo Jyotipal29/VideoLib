@@ -42,7 +42,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 // const More = styled.div``;
-const SignIn = () => {
+const Register = () => {
   const [name, setName] = useState(" ");
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState(" ");
@@ -56,19 +56,17 @@ const SignIn = () => {
     setIsAuth,
   } = useUser();
   // console.log(user);
-  const handleLogin = async (e) => {
+  const registerHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`${api}auth/signin`, {
+      const { data } = await axios.post(`${api}auth/signup`, {
         name,
+        email,
         password,
       });
       // console.log(data);
-
-      const token = data.token;
       if (data) {
-        dispatch({ type: "LOGIN", payload: data });
-
+        dispatch({ type: "REGISTER", payload: data });
         localStorage.setItem("user", JSON.stringify(data));
         localStorage.setItem("isAuth", true);
         localStorage.setItem("token", token);
@@ -84,31 +82,19 @@ const SignIn = () => {
   return (
     <Container>
       <Wrapper>
-        <Title>Sign In</Title>
-        <Subtitel>to continue to lama dev</Subtitel>
+        <Title>Register</Title>
         <Input placeholder="name" onChange={(e) => setName(e.target.value)} />
-        <Input
-          type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button onClick={handleLogin}>Sign In</Button>or
-        <Link to="/register">register</Link>
-        {/* <Title>or</Title>
-        <Input
-          placeholder="username"
-          onChange={(e) => setName(e.target.value)}
-        />
         <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
         <Input
           type="password"
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button>Sign up</Button> */}
+        <Button onClick={registerHandler}>Sign up</Button>or{" "}
+        <Link to="/login">login</Link>
       </Wrapper>
     </Container>
   );
 };
 
-export default SignIn;
+export default Register;

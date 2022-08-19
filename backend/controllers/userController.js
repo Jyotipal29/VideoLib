@@ -61,24 +61,32 @@ const unSubscrie = asyncHandler(async (req, res) => {
 });
 
 const like = asyncHandler(async (req, res) => {
-  const id = req.user.id;
-  console.log(id);
   const videoId = req.params.videoId;
-  await Video.findByIdAndUpdate(videoId, {
-    $addToSet: { likes: id },
-    $pull: { dislikes: id },
+  const video = await Video.findByIdAndUpdate(videoId, {
+    $addToSet: { likes: req.user._id },
+    $pull: { dislikes: req.user._id },
   });
-  res.status(200).json("the video has been liked");
+  res.status(200).json({
+    status: "success",
+    data: {
+      video,
+    },
+  });
 });
 
 const disLike = asyncHandler(async (req, res) => {
   const id = req.user.id;
   const videoId = req.params.videoId;
-  await Video.findByIdAndUpdate(videoId, {
+  const video = await Video.findByIdAndUpdate(videoId, {
     $addToSet: { dislikes: id },
     $pull: { likes: id },
   });
-  res.status(200).json("the video has been disliked");
+  res.status(200).json({
+    status: "success",
+    data: {
+      video,
+    },
+  });
 });
 
 module.exports = {

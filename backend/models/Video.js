@@ -2,19 +2,15 @@ const mongoose = require("mongoose");
 
 const VideoSchema = new mongoose.Schema(
   {
-    userId: {
-      type: String,
-      required: true,
-    },
     title: {
       type: String,
       required: true,
     },
     desc: {
       type: String,
-      required: true,
+      // required: true,
     },
-    imgUrl: {
+    thumbnailUrl: {
       type: String,
       required: true,
     },
@@ -22,15 +18,18 @@ const VideoSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    creator: {
+      type: String,
+      required: true,
+    },
     views: {
       type: Number,
-      required: true,
+      // required: true,
       default: 0,
     },
-    tags: {
+    tag: {
       type: [String],
       required: true,
-      default: [],
     },
     likes: {
       type: [String],

@@ -1,5 +1,8 @@
 import React from "react";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import WatchLaterIcon from "@mui/icons-material/WatchLaterOutlined";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreIcon from "@mui/icons-material/Explore";
 import HistoryIcon from "@mui/icons-material/History";
@@ -56,7 +59,7 @@ const Button = styled.button`
   gap: 5px;
 `;
 const Menu = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  // const { currentUser } = useSelector((state) => state.user);
 
   return (
     <Container>
@@ -66,40 +69,29 @@ const Menu = () => {
         </Link>
 
         <Item>
-          <HomeIcon />
-          Home
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <HomeIcon />
+            Home
+          </Link>
         </Item>
         <Link to="trend" style={{ textDecoration: "none", color: "inherit" }}>
           <Item>
-            <ExploreIcon />
-            explore
+            {/* <ExploreIcon /> */}
+            <ThumbUpIcon />
+            Liked
           </Item>
         </Link>
-        <Link
-          to="subscriptions"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <Item>
-            <SubscriptionsIcon />
-            subs
-          </Item>
-        </Link>
-        <Hr></Hr>
 
         <Item>
-          <HistoryIcon />
-          histroy
-        </Item>
-        <Hr></Hr>
-        <Item>
           <LibraryAddIcon />
-          library
+          playlists
         </Item>
         <Item>
-          <LightModeIcon />
-          light mode
+          <WatchLaterIcon />
+          watch later
         </Item>
-        {!currentUser && (
+
+        {/* {!currentUser && (
           <>
             <Login>
               Sing i to like videos,comment and subscribe.
@@ -111,7 +103,7 @@ const Menu = () => {
               </Link>
             </Login>
           </>
-        )}
+        )} */}
       </Wrapper>
     </Container>
   );

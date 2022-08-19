@@ -8,7 +8,7 @@ const {
   getVideo,
   addView,
   trend,
-  random,
+  allVideos,
   sub,
   getByTag,
   search,
@@ -16,15 +16,15 @@ const {
 
 //create a video
 
-router.post("/", protect, addVideo);
-router.put("/:id", protect, updateVideo);
-router.delete("/:id", protect, deleteVideo);
+// router.post("/", addVideo);
+router.put("/:id", updateVideo);
+router.delete("/:id", deleteVideo);
 router.get("/find/:id", getVideo);
 router.put("/view/:id", addView);
 router.get("/trend", trend);
-router.get("/random", random);
-router.get("/sub", protect, sub);
+router.get("/", allVideos);
+router.get("/sub", sub);
 router.get("/search", search);
-router.get("/tags", getByTag);
+router.get("/tag", getByTag);
 
 module.exports = router;

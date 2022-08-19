@@ -12,20 +12,20 @@ const {
 } = require("../controllers/userController");
 
 //update user
-router.put("/:id", protect, update);
+router.put("/:id", update);
 
 //delete user
-router.delete("/:id", protect, deleteUser);
+router.delete("/:id", deleteUser);
 //get a user
 router.get("/find/:id", getUser);
 //subscribe a user
-router.put("/sub/:id", protect, subscribe);
+router.put("/sub/:id", subscribe);
 //unsubscribe
-router.put("/unsub/:id", protect, unSubscrie);
+router.put("/unsub/:id", unSubscrie);
 //like a vidio
-router.put("/like/:videoId", protect, like);
+router.put("/like/:videoId", like);
 
 //dislike a video
-router.put("/dislike/:videoId", protect, disLike);
+router.put("/dislike/:videoId", disLike);
 
 module.exports = router;

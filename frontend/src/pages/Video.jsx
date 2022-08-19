@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
+import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
+import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
+import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ShareIcon from "@mui/icons-material/Share";
-import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
-import Comments from "../components/Comments";
-import Card from "../components/Card";
-import { useDispatch, useSelector } from "react-redux";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { useLocation } from "react-router-dom";
+
+import { useVideo } from "../context/videoContext/videoContext";
+import { useEffect } from "react";
 import axios from "axios";
 import { api } from "../constants/api";
-import { dislike, fetchSuccess, like } from "../redux/videoSlice";
-import { format } from "timeago.js";
+import { useUser } from "../context/userContext/userContext";
 const Container = styled.div`
   display: flex;
   gap: 24px;
 `;
+
 const Content = styled.div`
   flex: 5;
 `;
-
 const VideoWrapper = styled.div``;
 
 const Title = styled.h1`
@@ -29,7 +29,7 @@ const Title = styled.h1`
   font-weight: 400;
   margin-top: 20px;
   margin-bottom: 10px;
-  color: black;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Details = styled.div`
@@ -39,13 +39,13 @@ const Details = styled.div`
 `;
 
 const Info = styled.span`
-  color: black;
+  color: ${({ theme }) => theme.textSoft};
 `;
 
 const Buttons = styled.div`
   display: flex;
   gap: 20px;
-  color: black;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Button = styled.div`
@@ -54,13 +54,10 @@ const Button = styled.div`
   gap: 5px;
   cursor: pointer;
 `;
+
 const Hr = styled.hr`
   margin: 15px 0px;
-  border: 0.5px solid black;
-`;
-
-const Recommendation = styled.div`
-  flex: 2;
+  border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
 const Channel = styled.div`
@@ -72,28 +69,34 @@ const ChannelInfo = styled.div`
   display: flex;
   gap: 20px;
 `;
+
 const Image = styled.img`
-  height: 50px;
   width: 50px;
+  height: 50px;
   border-radius: 50%;
 `;
+
 const ChannelDetail = styled.div`
   display: flex;
   flex-direction: column;
-  color: black;
+  color: ${({ theme }) => theme.text};
 `;
+
 const ChannelName = styled.span`
   font-weight: 500;
 `;
+
 const ChannelCounter = styled.span`
   margin-top: 5px;
   margin-bottom: 20px;
-  color: black;
+  color: ${({ theme }) => theme.textSoft};
   font-size: 12px;
 `;
+
 const Description = styled.p`
   font-size: 14px;
 `;
+
 const Subscribe = styled.button`
   background-color: #cc1a00;
   font-weight: 500;
@@ -105,139 +108,92 @@ const Subscribe = styled.button`
   cursor: pointer;
 `;
 
+const VideoFrame = styled.video`
+  max-height: 720px;
+  width: 100%;
+  object-fit: cover;
+`;
+
 const Video = () => {
-  const { currentUser } = useSelector((state) => state.user);
-  const { currentVideo } = useSelector((state) => state.video);
-  // console.log("109", currentVideo);
-  const dispatch = useDispatch();
+  const {
+    videoState: { video, likedVideos },
+    videoDispatch,
+  } = useVideo();
+  console.log("122", likedVideos);
+  const {
+    state: { user },
+    token,
+  } = useUser();
+  console.log(user._id);
   const path = useLocation().pathname.split("/")[2];
 
-  const [channel, setChannel] = useState({});
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const videoRes = await axios.get(`${api}videos/find/${path}`);
-        // console.log(videoRes.data);
-        const channelRes = await axios.get(
-          `${api}users/find/${videoRes.data.userId}`
-        );
-        dispatch(fetchSuccess(videoRes.data));
-
-        setChannel(channelRes.data);
-      } catch (err) {}
+    const fetchVideo = async () => {
+      const { data } = await axios.get(`${api}videos/find/${path}`);
+      videoDispatch({ type: "GET_VIDEO", payload: data });
     };
-    fetchData();
-  }, [path, dispatch]);
+    fetchVideo();
+  }, [path]);
+  console.log(video);
 
-  const handleLike = async () => {
+  const likeHandler = async () => {
+    console.log("clicked");
+
     const config = {
       headers: {
-        Authorization: `Bearer ${currentUser.token}`,
+        Authorization: `Bearer ${token}`,
       },
     };
-    const res = await axios.put(`${api}users/like/${currentVideo._id}`, config);
-    console.log(res.data);
-    // dispatch(like(currentUser._id));
+    const { data } = await axios.put(`${api}users/like/${video._id}`, config);
+    console.log(data);
   };
 
-  const handleDisLike = async () => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${currentUser.token}`,
-      },
-    };
-    const res = await axios.put(
-      `${api}users/dislike/${currentVideo._id}`,
-      config
-    );
-    console.log(res.data);
-    // dispatch(dislike(res.data));
-  };
+  const dislikeHandler = () => {};
 
   return (
     <Container>
-      <Content>
-        <VideoWrapper>
-          <iframe
-            width="100%"
-            height="720"
-            src="https://www.youtube.com/embed/k3Vfj-e1Ma4"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </VideoWrapper>
-        <Title>{currentVideo.title}</Title>
-        <Details>
-          <Info>
-            {currentVideo.views} views {format(currentVideo.createdAt)}
-          </Info>
-          <Buttons>
-            <Button onClick={handleLike}>
-              {currentVideo.likes?.includes(currentUser._id) ? (
-                <ThumbUpIcon />
-              ) : (
-                <ThumbUpOutlinedIcon />
-              )}
-              {currentVideo.likes?.length}
-            </Button>
-            <Button onClick={handleDisLike}>
-              {currentVideo.dislikes?.includes(currentUser._id) ? (
-                <ThumbDownIcon />
-              ) : (
-                <ThumbDownOutlinedIcon />
-              )}
-            </Button>
-            <Button>
-              <ShareIcon />
-              share
-            </Button>
-            <Button>
-              <CollectionsBookmarkIcon />
-              save
-            </Button>
-          </Buttons>
-        </Details>
-        <Hr />
-        <Channel>
-          <ChannelInfo>
-            <Image src={channel.img} />
-            <ChannelDetail>
-              <ChannelName>{channel.name}</ChannelName>
-              <ChannelCounter>{channel.subscribers} subscribers</ChannelCounter>
-              <Description>{currentVideo.desc}</Description>
-            </ChannelDetail>
-          </ChannelInfo>
-          <Subscribe>subscribe</Subscribe>
-        </Channel>
-        <Hr />
-        <Comments />
-      </Content>
-      {/* <Recommendation>
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-      </Recommendation> */}
+      {video && (
+        <Content>
+          <VideoWrapper>
+            <iframe
+              width="100%"
+              height="500"
+              title="youtube video"
+              src={video.videoUrl}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </VideoWrapper>
+          <Title>{video.title}</Title>
+          <Details>
+            <Buttons>
+              <Button onClick={likeHandler}>
+                {video.likes?.includes(user?._id) ? (
+                  <ThumbUpIcon />
+                ) : (
+                  <ThumbUpOutlinedIcon />
+                )}{" "}
+                {video.likes?.length}
+              </Button>
+              <Button onClick={dislikeHandler}>
+                {video.dislikes?.includes(user?._id) ? (
+                  <ThumbDownIcon />
+                ) : (
+                  <ThumbDownOffAltOutlinedIcon />
+                )}{" "}
+                Dislike
+              </Button>
+              <Button>
+                <ReplyOutlinedIcon /> Share
+              </Button>
+              <Button>
+                <AddTaskOutlinedIcon /> Save
+              </Button>
+            </Buttons>
+          </Details>
+        </Content>
+      )}
     </Container>
   );
 };

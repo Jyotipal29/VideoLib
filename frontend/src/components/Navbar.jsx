@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
-import { useSelector } from "react-redux";
+import { useUser } from "../context/userContext/userContext";
+import { useNavigate } from "react-router-dom";
 const Container = styled.div`
   position: sticky;
   top: 0;
@@ -65,7 +66,22 @@ const Avatar = styled.img`
   background-color: #999;
 `;
 const Navbar = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const {
+    state: { user },
+    dispatch,
+    setToken,
+    setIsAuth,
+  } = useUser();
+  const navigate = useNavigate();
+  const logoutHandler = () => {
+    dispatch({ type: "LOGOUT" });
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("isAuth");
+    setIsAuth(false);
+    setToken(" ");
+    navigate("/login");
+  };
   return (
     <Container>
       <Wrapper>
@@ -73,20 +89,35 @@ const Navbar = () => {
           <Input placeholder="Search" />
           <SearchIcon />
         </Search>
-        {currentUser ? (
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <Button>
+            <AccountCircleIcon />
+            SIGN IN
+          </Button>
+        </Link>
+        {/* <Link to="/register" style={{ textDecoration: "none" }}>
+          <Button>
+            <AccountCircleIcon />
+            register
+          </Button>
+        </Link> */}
+
+        <Button onClick={logoutHandler}>logout</Button>
+
+        {/* {currentUser ? (
           <User>
             <VideoCallOutlinedIcon />
             <Avatar />
             {currentUser.name}
           </User>
         ) : (
-          <Link to="signIn" style={{ textDecoration: "none" }}>
+          <Link to="/signIn" style={{ textDecoration: "none" }}>
             <Button>
               <AccountCircleIcon />
               SIGN IN
             </Button>
           </Link>
-        )}
+        )} */}
       </Wrapper>
     </Container>
   );

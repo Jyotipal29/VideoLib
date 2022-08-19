@@ -25,30 +25,18 @@ const Button = styled.button`
   gap: 5px;
 `;
 
-const Home = () => {
+const Filtered = () => {
   const {
-    state: { user },
-  } = useUser();
-  const {
-    videoState: { videos, filtredVideos },
+    videoState: { videos, filteredVideos },
     videoDispatch,
   } = useVideo();
-  useEffect(() => {
-    const fetchVideos = async () => {
-      const { data } = await axios.get(`${api}videos`);
-      // console.log(data);
-      if (data) {
-        videoDispatch({ type: "GET_VIDEOS", payload: data });
-      }
-    };
-    fetchVideos();
-  }, []);
-
+  console.log(filteredVideos);
   return (
     <Container>
-      {videos && videos.map((video) => <Card key={video._id} video={video} />)}
+      {filteredVideos &&
+        filteredVideos.map((video) => <Card key={video._id} video={video} />)}
     </Container>
   );
 };
 
-export default Home;
+export default Filtered;

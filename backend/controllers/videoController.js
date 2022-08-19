@@ -68,7 +68,7 @@ const addView = asyncHandler(async (req, res) => {
   res.status(200).json("the views has been inc");
 });
 
-const random = asyncHandler(async (req, res) => {
+const allVideos = asyncHandler(async (req, res) => {
   const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
 
   res.status(200).json(videos);
@@ -94,8 +94,8 @@ const sub = asyncHandler(async (req, res) => {
 });
 
 const getByTag = asyncHandler(async (req, res) => {
-  const tags = req.query.tags.split(",");
-  const videos = await Video.find({ tags: { $in: tags } }).limit(20);
+  const tag = req.query.tag;
+  const videos = await Video.find({ tag: { $in: [tag] } });
   res.status(200).json(videos);
 });
 
@@ -115,7 +115,7 @@ module.exports = {
   getVideo,
   addView,
   trend,
-  random,
+  allVideos,
   sub,
   getByTag,
   search,

@@ -11,6 +11,9 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
+import Register from "./pages/Register";
+import Filters from "./components/Filters";
+import Filtered from "./pages/Filtered";
 const Container = styled.div`
   display: flex;
 `;
@@ -30,17 +33,18 @@ function App() {
         <Menu />
         <Main>
           <Navbar />
+          <Filters />
           <Wrapper>
             <Routes>
-              <Route path="/">
-                <Route index element={<Home type="random" />} />
-                <Route path="trend" element={<Home type="trends" />} />
-                <Route path="subscriptions" element={<Home type="sub" />} />
-                <Route path="signin" element={<SignIn />} />
-                <Route path="video">
-                  <Route path=":id" element={<Video />} />
-                </Route>
-              </Route>
+              <Route path="/" index element={<Home />} />
+              <Route path="/filtered" index element={<Filtered />} />
+              <Route path="/videos/:id" index element={<Video />} />
+              <Route path="/register" index element={<Register />} />
+              <Route path="/login" index element={<SignIn />} />
+              {/* <Route path="/trend" element={<Home />} />
+              <Route path="/subscriptions" element={<Home />} />
+              <Route path="/signin" element={<SignIn />} /> */}
+              {/* <Route path="/videos/:id" element={<Video />} /> */}
             </Routes>
           </Wrapper>
         </Main>
