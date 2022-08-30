@@ -7,6 +7,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/usersRoutes");
 const videoRoutes = require("./routes/videosRoutes");
 const commentRoutes = require("./routes/commentsRoutes");
+const watchLaterRoutes = require("./routes/watchLaterRoutes");
 connectDB();
 const app = express();
 app.use(cors());
@@ -18,6 +19,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/wl", watchLaterRoutes);
 
 const port = 8080;
 app.listen(port, () => console.log(`listening in port number ${port}`));

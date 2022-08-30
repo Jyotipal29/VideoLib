@@ -14,6 +14,7 @@ import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import Filters from "./components/Filters";
 import Filtered from "./pages/Filtered";
+import WatchLater from "./pages/WatchLater";
 const Container = styled.div`
   display: flex;
 `;
@@ -37,6 +38,7 @@ function App() {
           <Wrapper>
             <Routes>
               <Route path="/" index element={<Home />} />
+              <Route path="/watchlater" index element={<WatchLater />} />
               <Route path="/filtered" index element={<Filtered />} />
               <Route path="/videos/:id" index element={<Video />} />
               <Route path="/register" index element={<Register />} />

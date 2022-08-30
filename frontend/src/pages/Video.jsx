@@ -116,7 +116,7 @@ const VideoFrame = styled.video`
 
 const Video = () => {
   const {
-    videoState: { video, likedVideos },
+    videoState: { video, likedVideos, watchLater },
     videoDispatch,
   } = useVideo();
   console.log("122", likedVideos);
@@ -149,6 +149,27 @@ const Video = () => {
   };
 
   const dislikeHandler = () => {};
+  const watchLaterHandler = async ({
+    _id,
+    title,
+    videoUrl,
+    thumbnailUrl,
+    creator,
+  }) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.post(
+      `${api}wl/add`,
+      {
+        watchLaterItems: { video: _id, title, videoUrl, thumbnailUrl, creator },
+      },
+      config
+    );
+    videoDispatch({ type: "ADD_WATCHLATER", payload: data });
+  };
 
   return (
     <Container>
@@ -187,7 +208,7 @@ const Video = () => {
               <Button>
                 <ReplyOutlinedIcon /> Share
               </Button>
-              <Button>
+              <Button onClick={() => watchLaterHandler(video)}>
                 <AddTaskOutlinedIcon /> Save
               </Button>
             </Buttons>

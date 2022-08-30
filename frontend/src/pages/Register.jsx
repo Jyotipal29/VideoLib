@@ -59,7 +59,7 @@ const Register = () => {
   const registerHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`${api}auth/signup`, {
+      const { data } = await axios.post(`${api}auth/register`, {
         name,
         email,
         password,

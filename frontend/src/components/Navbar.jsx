@@ -95,6 +95,7 @@ const Navbar = () => {
             SIGN IN
           </Button>
         </Link>
+        {user && <p>{user.name}</p>}
         {/* <Link to="/register" style={{ textDecoration: "none" }}>
           <Button>
             <AccountCircleIcon />

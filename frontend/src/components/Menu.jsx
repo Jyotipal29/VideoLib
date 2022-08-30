@@ -86,10 +86,15 @@ const Menu = () => {
           <LibraryAddIcon />
           playlists
         </Item>
-        <Item>
-          <WatchLaterIcon />
-          watch later
-        </Item>
+        <Link
+          to="/watchlater"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Item>
+            <WatchLaterIcon />
+            watch later
+          </Item>
+        </Link>
 
         {/* {!currentUser && (
           <>

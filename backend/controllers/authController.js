@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const asyncHandler = require("express-async-handler");
 
-const signup = asyncHandler(async (req, res) => {
+const register = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
     res.status(400);
@@ -13,7 +13,7 @@ const signup = asyncHandler(async (req, res) => {
   }
 
   //check if user exist
-  const userExists = await User.findOne({ email });
+  const userExists = await User.findOne({ name });
   if (userExists) {
     res.status(400);
     throw new Error("User already exist");
@@ -42,7 +42,7 @@ const signup = asyncHandler(async (req, res) => {
   }
 });
 
-const signin = asyncHandler(async (req, res) => {
+const login = asyncHandler(async (req, res) => {
   const { name, password } = req.body;
 
   //check for user email
@@ -67,6 +67,6 @@ const generateToken = (id) => {
 };
 
 module.exports = {
-  signup,
-  signin,
+  register,
+  login,
 };

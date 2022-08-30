@@ -1,12 +1,11 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const router = express.Router();
-const { signup, signin } = require("../controllers/authController");
+const { register, login } = require("../controllers/authController");
 
 //CREATE A USER
-router.post("/signup", signup);
+router.post("/register", register);
 //SIGN IN  A USER
-router.post("/signin", signin);
+router.post("/login", login);
 //GOOGLE AUTH
 router.post("/google");
 
