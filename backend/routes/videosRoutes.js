@@ -10,7 +10,7 @@ const {
   trend,
   allVideos,
   sub,
-  getByTag,
+  // getByTag,
   search,
 } = require("../controllers/videoController");
 
@@ -25,6 +25,6 @@ router.get("/trend", trend);
 router.get("/", allVideos);
 router.get("/sub", sub);
 router.get("/search", search);
-router.get("/tag", getByTag);
+// router.get("/tag", getByTag);
 
 module.exports = router;

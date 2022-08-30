@@ -143,7 +143,7 @@ const Video = () => {
         Authorization: `Bearer ${user.token}`,
       },
     };
-    const { data } = await axios.put(`${api}users/like/${id}`, config);
+    const { data } = await axios.put(`${api}users/like/${id}`, {}, config);
     console.log(data);
   };
 

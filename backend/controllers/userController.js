@@ -72,7 +72,7 @@ const like = asyncHandler(async (req, res) => {
   res.status(200).json({
     status: "success",
     data: {
-      video,
+      userId: id,
     },
   });
 });

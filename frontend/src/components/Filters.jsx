@@ -50,7 +50,7 @@ const Filters = () => {
   };
   return (
     <Container>
-      <Wrapper>
+      {/* <Wrapper>
         <Link to="/">
           <Button>All</Button>
         </Link>
@@ -64,7 +64,7 @@ const Filters = () => {
               </Link>
             );
           })}
-      </Wrapper>
+      </Wrapper> */}
     </Container>
   );
 };

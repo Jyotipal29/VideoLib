@@ -1,7 +1,7 @@
 const cat = [
   {
     id: 1,
-    value: "tanya",
+    value: "all",
   },
   {
     id: 2,
@@ -30,6 +30,10 @@ const cat = [
   {
     id: 8,
     value: "ankit bhatia",
+  },
+  {
+    id: 8,
+    value: "tanya",
   },
 ];
 export default cat;

@@ -69,9 +69,17 @@ const addView = asyncHandler(async (req, res) => {
 });
 
 const allVideos = asyncHandler(async (req, res) => {
-  const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
-
-  res.status(200).json(videos);
+  // const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
+  // res.status(200).json(videos);
+  let query = {};
+  const tag = req.query.tag;
+  if (tag) {
+    query.tag = {
+      $in: [tag],
+    };
+  }
+  const videos = await Video.find(query);
+  res.status(201).json(videos);
 });
 
 const trend = asyncHandler(async (req, res) => {
@@ -93,11 +101,11 @@ const sub = asyncHandler(async (req, res) => {
   res.status(200).json(list.flat().sort((a, b) => b.createdAt - a.createdAt));
 });
 
-const getByTag = asyncHandler(async (req, res) => {
-  const tag = req.query.tag;
-  const videos = await Video.find({ tag: { $in: [tag] } });
-  res.status(200).json(videos);
-});
+// const getByTag = asyncHandler(async (req, res) => {
+//   const tag = req.query.tag;
+//   const videos = await Video.find({ tag: { $in: [tag] } });
+//   res.status(200).json(videos);
+// });
 
 const search = asyncHandler(async (req, res) => {
   const query = req.query.q;
@@ -117,6 +125,6 @@ module.exports = {
   trend,
   allVideos,
   sub,
-  getByTag,
+  // getByTag,
   search,
 };
