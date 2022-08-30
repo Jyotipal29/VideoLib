@@ -23,9 +23,9 @@ router.put("/sub/:id", subscribe);
 //unsubscribe
 router.put("/unsub/:id", unSubscrie);
 //like a vidio
-router.put("/like/:videoId", like);
+router.put("/like/:videoId", protect, like);
 
 //dislike a video
-router.put("/dislike/:videoId", disLike);
+router.put("/dislike/:videoId", protect, disLike);
 
 module.exports = router;

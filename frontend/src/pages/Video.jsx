@@ -136,15 +136,14 @@ const Video = () => {
   }, [path]);
   console.log(video);
 
-  const likeHandler = async () => {
-    console.log("clicked");
-
+  const likeHandler = async (id) => {
+    console.log(user, "user");
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${user.token}`,
       },
     };
-    const { data } = await axios.put(`${api}users/like/${video._id}`, config);
+    const { data } = await axios.put(`${api}users/like/${id}`, config);
     console.log(data);
   };
 
@@ -189,7 +188,7 @@ const Video = () => {
           <Title>{video.title}</Title>
           <Details>
             <Buttons>
-              <Button onClick={likeHandler}>
+              <Button onClick={() => likeHandler(video._id)}>
                 {video.likes?.includes(user?._id) ? (
                   <ThumbUpIcon />
                 ) : (
@@ -205,9 +204,7 @@ const Video = () => {
                 )}{" "}
                 Dislike
               </Button>
-              <Button>
-                <ReplyOutlinedIcon /> Share
-              </Button>
+
               <Button onClick={() => watchLaterHandler(video)}>
                 <AddTaskOutlinedIcon /> Save
               </Button>

@@ -3,7 +3,7 @@ const { watch } = require("../models/User");
 const WatchLater = require("../models/Watchlater");
 
 const getWL = expressAsyncHandler(async (req, res) => {
-  const watchLater = await WatchLater.find();
+  const watchLater = await WatchLater.find({ user: req.user._id });
   if (watchLater) {
     res.status(201).json({ watchLater });
   } else {
@@ -62,7 +62,7 @@ const removeFromWL = expressAsyncHandler(async (req, res) => {
       {
         $pull: {
           watchLaterItems: {
-            video: id,
+            _id: id,
           },
         },
       }
