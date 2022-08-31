@@ -116,10 +116,10 @@ const VideoFrame = styled.video`
 
 const Video = () => {
   const {
-    videoState: { video, likedVideos, watchLater },
+    videoState: { video, liked, watchLater },
     videoDispatch,
   } = useVideo();
-  console.log("122", likedVideos);
+  console.log("122", liked);
   const {
     state: { user },
     token,
@@ -144,10 +144,18 @@ const Video = () => {
       },
     };
     const { data } = await axios.put(`${api}users/like/${id}`, {}, config);
-    console.log(data);
+    videoDispatch({ type: "LIKE", payload: data });
   };
 
-  const dislikeHandler = () => {};
+  const dislikeHandler = async (id) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    const { data } = await axios.put(`${api}users/dislike/${id}`, {}, config);
+    console.log(data, "dislike");
+  };
   const watchLaterHandler = async ({
     _id,
     title,
@@ -196,7 +204,7 @@ const Video = () => {
                 )}{" "}
                 {video.likes?.length}
               </Button>
-              <Button onClick={dislikeHandler}>
+              <Button onClick={() => dislikeHandler(video._id)}>
                 {video.dislikes?.includes(user?._id) ? (
                   <ThumbDownIcon />
                 ) : (

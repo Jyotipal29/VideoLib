@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const { Schema } = mongoose;
 const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -16,17 +16,12 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    img: {
-      type: String,
-    },
-    subscribers: {
-      type: Number,
-      default: 0,
-    },
-    subscribedUsers: {
-      type: [String],
-      default: 0,
-    },
+    likedVideos: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Video",
+      },
+    ],
   },
   {
     timestamps: true,

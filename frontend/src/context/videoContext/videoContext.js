@@ -15,7 +15,7 @@ export const VideoProvider = ({ children }) => {
   const [videoState, videoDispatch] = useReducer(VideoReducer, {
     videos: [],
     video: [],
-    likedVideos: [],
+    liked: [],
     filteredVideos: [],
     watchLater: [],
     searchQuery: "",
