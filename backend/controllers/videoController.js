@@ -73,7 +73,7 @@ const allVideos = asyncHandler(async (req, res) => {
   // res.status(200).json(videos);
   let query = {};
   const tag = req.query.tag;
-  if (tag) {
+  if (tag && ![null, "null"].includes(tag)) {
     query.tag = {
       $in: [tag],
     };

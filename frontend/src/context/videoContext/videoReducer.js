@@ -44,6 +44,8 @@ export const VideoReducer = (videoState, action) => {
         ...videoState,
         filteredVideos: action.payload,
       };
+    case "FILTER_BY_SEARCH":
+      return { ...videoState, searchQuery: action.payload };
     case "LIKE":
       return {
         ...videoState,

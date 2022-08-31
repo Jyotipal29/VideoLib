@@ -6,6 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import { useUser } from "../context/userContext/userContext";
 import { useNavigate } from "react-router-dom";
+import { useVideo } from "../context/videoContext/videoContext";
 const Container = styled.div`
   position: sticky;
   top: 0;
@@ -72,6 +73,7 @@ const Navbar = () => {
     setToken,
     setIsAuth,
   } = useUser();
+  const { videoDispatch } = useVideo();
   const navigate = useNavigate();
   const logoutHandler = () => {
     dispatch({ type: "LOGOUT" });
@@ -86,7 +88,15 @@ const Navbar = () => {
     <Container>
       <Wrapper>
         <Search>
-          <Input placeholder="Search" />
+          <Input
+            placeholder="Search"
+            onChange={(e) =>
+              videoDispatch({
+                type: "FILTER_BY_SEARCH",
+                payload: e.target.value,
+              })
+            }
+          />
           <SearchIcon />
         </Search>
         <Link to="/login" style={{ textDecoration: "none" }}>

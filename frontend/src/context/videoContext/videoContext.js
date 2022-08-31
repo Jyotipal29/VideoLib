@@ -18,6 +18,7 @@ export const VideoProvider = ({ children }) => {
     likedVideos: [],
     filteredVideos: [],
     watchLater: [],
+    searchQuery: "",
   });
 
   return (
