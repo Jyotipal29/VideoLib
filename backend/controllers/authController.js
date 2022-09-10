@@ -6,14 +6,20 @@ const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 
 const register = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const {
+    name,
+    email,
+    password
+  } = req.body;
   if (!name || !email || !password) {
     res.status(400);
     throw new Error("please add all fields");
   }
 
   //check if user exist
-  const userExists = await User.findOne({ name });
+  const userExists = await User.findOne({
+    name
+  });
   if (userExists) {
     res.status(400);
     throw new Error("User already exist");
@@ -43,10 +49,15 @@ const register = asyncHandler(async (req, res) => {
 });
 
 const login = asyncHandler(async (req, res) => {
-  const { name, password } = req.body;
+  const {
+    name,
+    password
+  } = req.body;
 
   //check for user email
-  const user = await User.findOne({ name });
+  const user = await User.findOne({
+    name
+  });
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
       _id: user.id,
@@ -61,7 +72,9 @@ const login = asyncHandler(async (req, res) => {
 });
 
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+  return jwt.sign({
+    id
+  }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
 };

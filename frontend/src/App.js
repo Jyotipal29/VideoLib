@@ -15,6 +15,7 @@ import Register from "./pages/Register";
 import Filters from "./components/Filters";
 import Filtered from "./pages/Filtered";
 import WatchLater from "./pages/WatchLater";
+import LikedVideos from "./pages/LikedVideos";
 const Container = styled.div`
   display: flex;
 `;
@@ -39,6 +40,7 @@ function App() {
             <Routes>
               <Route path="/" index element={<Home />} />
               <Route path="/watchlater" index element={<WatchLater />} />
+              <Route path="/liked" index element={<LikedVideos />} />
               <Route path="/filtered" index element={<Filtered />} />
               <Route path="/videos/:id" index element={<Video />} />
               <Route path="/register" index element={<Register />} />

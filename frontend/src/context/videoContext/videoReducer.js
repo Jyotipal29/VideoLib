@@ -46,13 +46,7 @@ export const VideoReducer = (videoState, action) => {
       };
     case "FILTER_BY_SEARCH":
       return { ...videoState, searchQuery: action.payload };
-    case "LIKE":
-      let like = (videoState.video.likes.includes(action.payload.id))? (videoState.video.dislikes.splice(videoState.video.dislikes.findIndex(userId =>userId === action.payload.id))):(videoState.video.likes.push(action.payload.id))
-      return {
-        ...videoState,
-        like,
-       
-      };
+    
      
     default:
       return videoState;

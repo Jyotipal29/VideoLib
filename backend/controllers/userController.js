@@ -4,11 +4,9 @@ const Video = require("../models/Video");
 const update = asyncHandler(async (req, res) => {
   if (req.params.id === req.user.id) {
     const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      {
+      req.params.id, {
         $set: req.body,
-      },
-      {
+      }, {
         new: true,
       }
     );
@@ -42,38 +40,54 @@ const getUser = asyncHandler(async (req, res) => {
 //visit this agin understand it properly// git in now
 const subscribe = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(req.user.id, {
-    $push: { subscribedUsers: req.params.id },
+    $push: {
+      subscribedUsers: req.params.id
+    },
   });
   await User.findByIdAndUpdate(req.params.id, {
-    $inc: { subscribers: 1 },
+    $inc: {
+      subscribers: 1
+    },
   });
   res.status(200).json("subscription succesful");
 });
 
 const unSubscrie = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(req.user.id, {
-    $pull: { subscribedUsers: req.params.id },
+    $pull: {
+      subscribedUsers: req.params.id
+    },
   });
   await User.findByIdAndUpdate(req.params.id, {
-    $inc: { subscribers: -1 },
+    $inc: {
+      subscribers: -1
+    },
   });
   res.status(200).json("unsubscription succesful");
 });
 
 const like = asyncHandler(async (req, res) => {
   try {
-    const videoId = req.params.id;
-    // console.log(req.params.id);
-    const video = await Video.find({ videoId });
-    // const video = await Video.findByIdAndUpdate(req.params.id, {
-    //   $inc: { likes: 1 },
-    // });
-    // console.log(video, "video");
-    // const user = await User.findByIdAndUpdate(req.user._id, {
-    //   $push: { likedVideos: req.params.id },
-    // });
+    const id = req.params.id;
+    // console.log(req.params.id, "id");
+    const video = await Video.findByIdAndUpdate({
+      _id: id
+    }, {
+      $inc: {
+        likes: 1
+      },
+    });
+    console.log(video, "video");
+    const user = await User.findByIdAndUpdate(req.user._id, {
+      $push: {
+        likedVideos: id
+      },
+    });
 
-    res.json(video);
+    res.json({
+      video,
+      user
+    });
   } catch (e) {
     res.status(500).json({
       success: false,
@@ -86,13 +100,19 @@ const like = asyncHandler(async (req, res) => {
 
 const disLike = asyncHandler(async (req, res) => {
   try {
-    const videoId = req.params.videoId;
+    const id = req.params.id;
 
-    const video = await Video.findByIdAndUpdate(videoId, {
-      $inc: { likes: -1 },
+    const video = await Video.findByIdAndUpdate({
+      _id: id
+    }, {
+      $inc: {
+        likes: -1
+      },
     });
     const user = await User.findByIdAndUpdate(req.user._id, {
-      $pull: { likedVideos: videoId },
+      $pull: {
+        likedVideos: id
+      },
     });
 
     res.json({

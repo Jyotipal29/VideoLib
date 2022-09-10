@@ -3,7 +3,10 @@ const Video = require("../models/Video");
 const Comment = require("../models/Comments");
 
 const addComment = asyncHandler(async (req, res) => {
-  const newComment = new Comment({ ...req.body, userId: req.user.id });
+  const newComment = new Comment({
+    ...req.body,
+    userId: req.user.id,
+  });
   const savedComment = await newComment.save();
   res.status(200).json(savedComment);
 });
@@ -21,7 +24,9 @@ const deleteComment = asyncHandler(async (req, res) => {
 });
 
 const getComment = asyncHandler(async (req, res) => {
-  const comments = await Comment.find({ videoId: req.params.videoId });
+  const comments = await Comment.find({
+    videoId: req.params.videoId,
+  });
   res.status(200).json(comments);
 });
 

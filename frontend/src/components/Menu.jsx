@@ -76,9 +76,13 @@ const Menu = () => {
         </Item>
         <Link to="trend" style={{ textDecoration: "none", color: "inherit" }}>
           <Item>
-            {/* <ExploreIcon /> */}
-            <ThumbUpIcon />
-            Liked
+            <Link
+              to="/liked"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <ThumbUpIcon />
+              Liked
+            </Link>
           </Item>
         </Link>
 

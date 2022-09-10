@@ -116,17 +116,17 @@ const VideoFrame = styled.video`
 
 const Video = () => {
   const {
-    videoState: { video, liked, watchLater },
+    videoState: { video, watchLater },
     videoDispatch,
   } = useVideo();
-  console.log("122", liked);
   const {
-    state: { user },
+    state: { user, likedVideos },
     token,
+    dispatch,
   } = useUser();
   console.log(user._id);
   const path = useLocation().pathname.split("/")[2];
-
+  console.log(path, "path");
   useEffect(() => {
     const fetchVideo = async () => {
       const { data } = await axios.get(`${api}videos/find/${path}`);
@@ -134,28 +134,23 @@ const Video = () => {
     };
     fetchVideo();
   }, [path]);
-  console.log(video);
+  console.log(video, "manali");
 
   const likeHandler = async (id) => {
-    console.log(user, "user");
     const config = {
       headers: {
         Authorization: `Bearer ${user.token}`,
       },
     };
     const { data } = await axios.put(`${api}users/like/${id}`, {}, config);
-    videoDispatch({ type: "LIKE", payload: data });
+    console.log(data.video, "data");
+    dispatch({
+      type: "TOGGLE_LIKE",
+      payload: data.video,
+    });
   };
+  console.log(likedVideos, "likedVideos");
 
-  const dislikeHandler = async (id) => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-    const { data } = await axios.put(`${api}users/dislike/${id}`, {}, config);
-    console.log(data, "dislike");
-  };
   const watchLaterHandler = async ({
     _id,
     title,
@@ -196,21 +191,12 @@ const Video = () => {
           <Title>{video.title}</Title>
           <Details>
             <Buttons>
-              <Button onClick={() => likeHandler(video._id)}>
-                {video.likes?.includes(user?._id) ? (
-                  <ThumbUpIcon />
-                ) : (
-                  <ThumbUpOutlinedIcon />
-                )}{" "}
-                {video.likes?.length}
-              </Button>
-              <Button onClick={() => dislikeHandler(video._id)}>
-                {video.dislikes?.includes(user?._id) ? (
-                  <ThumbDownIcon />
-                ) : (
-                  <ThumbDownOffAltOutlinedIcon />
-                )}{" "}
-                Dislike
+              <Button
+                // style={{ color: isVideoLiked ? "red" : "blue" }}
+                onClick={() => likeHandler(video._id)}
+              >
+                <ThumbUpIcon />
+                like{video.likes}
               </Button>
 
               <Button onClick={() => watchLaterHandler(video)}>
@@ -225,3 +211,496 @@ const Video = () => {
 };
 
 export default Video;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

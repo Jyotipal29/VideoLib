@@ -52,6 +52,7 @@ const Info = styled.div`
 `;
 
 const Card = ({ video }) => {
+  console.log(video, "bidio");
   const clickHandler = () => {};
   return (
     <Link to={`/videos/${video._id}`} style={{ textDecoration: "none" }}>
