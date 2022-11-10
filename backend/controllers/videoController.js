@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Video = require("../models/Video");
 
 const getVideo = asyncHandler(async (req, res) => {
-  const { id } = req.params.id;
+  const { id } = req.params;
   const video = await Video.findOne({ id });
   if (video) {
     res.status(200).json(video);

@@ -1,12 +1,12 @@
 const videos = [
-  {
-    thumbnailUrl: "https://img.youtube.com/vi/neZVekz6Sfw/maxresdefault.jpg",
-    title: "Manali vlog",
-    creator: "Hopping bug",
-    tag: ["manali", "hopping bug"],
-    likes: 0,
-    videoUrl: "https://youtube.com/embed/eZVekz6Sfw ",
-  },
+  // {
+  //   thumbnailUrl: "https://img.youtube.com/vi/neZVekz6Sfw/maxresdefault.jpg",
+  //   title: "Manali vlog",
+  //   creator: "Hopping bug",
+  //   tag: ["manali", "hopping bug"],
+  //   likes: 0,
+  //   videoUrl: "https://youtube.com/embed/eZVekz6Sfw ",
+  // },
   {
     thumbnailUrl: "https://img.youtube.com/vi/38rh7-v6p6A/maxresdefault.jpg",
     title: "Manali | Top 5 things to do | travel video",
