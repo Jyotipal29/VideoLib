@@ -66,58 +66,84 @@ const unSubscrie = asyncHandler(async (req, res) => {
   res.status(200).json("unsubscription succesful");
 });
 
+// const like = asyncHandler(async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     // console.log(req.params.id, "id");
+//     const video = await Video.findByIdAndUpdate({
+//       _id: id
+//     }, {
+//       $inc: {
+//         likes: 1
+//       },
+//     });
+//     console.log(video, "video");
+//     const user = await User.findByIdAndUpdate(req.user._id, {
+//       $push: {
+//         likedVideos: id
+//       },
+//     });
+
+//     res.json({
+//       video,
+//       user
+//     });
+//   } catch (e) {
+//     res.status(500).json({
+//       success: false,
+//       error: {
+//         message: "Mongoose error: " + e.message,
+//       },
+//     });
+//   }
+// });
+
+// const disLike = asyncHandler(async (req, res) => {
+//   try {
+//     const id = req.params.id;
+
+//     const video = await Video.findByIdAndUpdate({
+//       _id: id
+//     }, {
+//       $inc: {
+//         likes: -1
+//       },
+//     });
+//     const user = await User.findByIdAndUpdate(req.user._id, {
+//       $pull: {
+//         likedVideos: id
+//       },
+//     });
+
+//     res.json({
+//       success: true,
+//       user,
+//       video,
+//     });
+//   } catch (e) {
+//     res.status(500).json({
+//       success: false,
+//       error: {
+//         message: "Mongoose error: " + e.message,
+//       },
+//     });
+//   }
+// });
+
+// like
 const like = asyncHandler(async (req, res) => {
   try {
-    const id = req.params.id;
-    // console.log(req.params.id, "id");
-    const video = await Video.findByIdAndUpdate({
-      _id: id
-    }, {
-      $inc: {
-        likes: 1
-      },
-    });
-    console.log(video, "video");
-    const user = await User.findByIdAndUpdate(req.user._id, {
-      $push: {
-        likedVideos: id
-      },
-    });
+    const { id } = req.params;
 
-    res.json({
-      video,
-      user
+    const video = await Video.findByIdAndUpdate(id, {
+      $inc: { likes: 1 },
     });
-  } catch (e) {
-    res.status(500).json({
-      success: false,
-      error: {
-        message: "Mongoose error: " + e.message,
-      },
-    });
-  }
-});
-
-const disLike = asyncHandler(async (req, res) => {
-  try {
-    const id = req.params.id;
-
-    const video = await Video.findByIdAndUpdate({
-      _id: id
-    }, {
-      $inc: {
-        likes: -1
-      },
-    });
-    const user = await User.findByIdAndUpdate(req.user._id, {
-      $pull: {
-        likedVideos: id
-      },
+    const user = await User.findByIdAndUpdate(req.user.id, {
+      $push: { likedVideos: id },
     });
 
     res.json({
       success: true,
-      user,
       video,
     });
   } catch (e) {
@@ -127,8 +153,40 @@ const disLike = asyncHandler(async (req, res) => {
         message: "Mongoose error: " + e.message,
       },
     });
-  }
-});
+  } 
+})
+
+
+//  dislike
+
+const disLike = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const video = await Video.findByIdAndUpdate(id, {
+      $inc: { likes: -1 },
+    });
+    const user = await User.findByIdAndUpdate(req.user.id, {
+      $pull: { likedVideos:id },
+    });
+
+    res.json({
+      success: true,
+      video,
+    });
+  } catch (e) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: "Mongoose error: " + e.message,
+      },
+    });
+  } 
+})
+
+
+
+
 
 module.exports = {
   update,

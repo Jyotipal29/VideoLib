@@ -1,21 +1,21 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
 const Video = require("../models/Video");
+const ObjectId = require("mongodb").ObjectId;
 
 const getVideo = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findOne({ id });
+  console.log(id, "id");
+  const video = await Video.findById(ObjectId(id));
+  console.log(video, "video");
   if (video) {
     res.status(200).json(video);
   } else {
-    res.status(404);
-    throw new Error("video not found");
+    res.status(404).json({ message: "video not found" });
   }
 });
 
 const allVideos = asyncHandler(async (req, res) => {
-  // const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
-  // res.status(200).json(videos);
   let query = {};
   const tag = req.query.tag;
   if (tag && ![null, "null"].includes(tag)) {
