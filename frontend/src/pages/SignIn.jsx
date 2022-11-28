@@ -4,48 +4,12 @@ import styled from "styled-components";
 import { api } from "../constants/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../context/userContext/userContext";
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 56px);
-`;
+import "./register.css";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  /* background-color: white; */
-
-  background-color: 181818;
-  padding: 20px 50px;
-`;
-const Title = styled.h1`
-  font-size: 24px;
-`;
-const Subtitel = styled.h2`
-  font-size: 20px;
-  font-weight: 300;
-`;
-const Input = styled.input`
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 10px;
-  background-color: transparent;
-  width: 100%;
-`;
-const Button = styled.button`
-  border-radius: 3px;
-  border: none;
-  padding: 10px 20px;
-  font-weight: 500;
-  cursor: pointer;
-`;
-// const More = styled.div``;
 const SignIn = () => {
-  const [name, setName] = useState(" ");
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState(" ");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const {
     state: { user },
@@ -60,7 +24,7 @@ const SignIn = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(`${api}auth/login`, {
-        name,
+        email,
         password,
       });
       // console.log(data);
@@ -77,37 +41,43 @@ const SignIn = () => {
       }
 
       navigate("/");
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      setError(error.response.data.error);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
+      console.log(error);
     }
   };
   return (
-    <Container>
-      <Wrapper>
-        <Title>Sign In</Title>
-        <Subtitel>to continue to lama dev</Subtitel>
-        <Input placeholder="name" onChange={(e) => setName(e.target.value)} />
-        <Input
-          type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button onClick={handleLogin}>Sign In</Button>or
-        <Link to="/register">register</Link>
-        {/* <Title>or</Title>
-        <Input
-          placeholder="username"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-        <Input
-          type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button>Sign up</Button> */}
-      </Wrapper>
-    </Container>
+    <div className="form-container">
+      <form className="form">
+        <h2 className="form-heading">Sign In</h2>
+        {error && <span className="error-message">{error}</span>}
+        <div className="form-control">
+          <smal>email</smal>
+          <input
+            placeholder="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="form-control">
+          <small>password</small>
+          <input
+            type="password"
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button onClick={handleLogin} className="form-btn">
+          Sign In
+        </button>
+
+        <button className="form-btn">
+          <Link to="/register"> dont have an account ? register</Link>
+        </button>
+      </form>
+    </div>
   );
 };
 

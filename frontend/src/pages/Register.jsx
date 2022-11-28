@@ -4,48 +4,14 @@ import styled from "styled-components";
 import { api } from "../constants/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../context/userContext/userContext";
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 56px);
-`;
+import "./register.css";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  /* background-color: white; */
-
-  background-color: 181818;
-  padding: 20px 50px;
-`;
-const Title = styled.h1`
-  font-size: 24px;
-`;
-const Subtitel = styled.h2`
-  font-size: 20px;
-  font-weight: 300;
-`;
-const Input = styled.input`
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 10px;
-  background-color: transparent;
-  width: 100%;
-`;
-const Button = styled.button`
-  border-radius: 3px;
-  border: none;
-  padding: 10px 20px;
-  font-weight: 500;
-  cursor: pointer;
-`;
-// const More = styled.div``;
 const Register = () => {
   const [name, setName] = useState(" ");
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState(" ");
+  const [cnfPassword, setCnfPassword] = useState(" ");
+  const [error, setError] = useState(" ");
   const navigate = useNavigate();
   const {
     state: { user },
@@ -58,6 +24,15 @@ const Register = () => {
   // console.log(user);
   const registerHandler = async (e) => {
     e.preventDefault();
+    console.log(password !== cnfPassword, "check");
+    if (password !== cnfPassword) {
+      setPassword("");
+      setCnfPassword("");
+      setTimeout(() => {
+        setError(" ");
+      }, 5000);
+      return setError(" password do not match");
+    }
     try {
       const { data } = await axios.post(`${api}auth/register`, {
         name,
@@ -75,25 +50,54 @@ const Register = () => {
       }
 
       navigate("/");
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      setError(error.response.data);
+      setTimeout(() => {
+        setError("");
+      }, 5000);
+      console.log(error.response.data, "error");
     }
   };
   return (
-    <Container>
-      <Wrapper>
-        <Title>Register</Title>
-        <Input placeholder="name" onChange={(e) => setName(e.target.value)} />
-        <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-        <Input
-          type="password"
-          placeholder="password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button onClick={registerHandler}>Sign up</Button>or{" "}
-        <Link to="/login">login</Link>
-      </Wrapper>
-    </Container>
+    <div className="form-container">
+      <form className="form">
+        <h2 className="form-heading">Register</h2>
+        {error && <span className="error-message">{error}</span>}
+        <div className="form-control">
+          <small>Name</small>
+          <input placeholder="name" onChange={(e) => setName(e.target.value)} />
+        </div>
+        <div className="form-control">
+          <small>email</small>
+          <input
+            placeholder="email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="form-control">
+          <small>password</small>
+          <input
+            type="password"
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="form-control">
+          <small> confirm password</small>
+          <input
+            type="password"
+            placeholder=" confirm password"
+            onChange={(e) => setCnfPassword(e.target.value)}
+          />
+        </div>
+        <button onClick={registerHandler} className="form-btn">
+          Sign up
+        </button>
+        <button className="form-btn login">
+          <Link to="/login"> already have an account ? login</Link>
+        </button>
+      </form>
+    </div>
   );
 };
 

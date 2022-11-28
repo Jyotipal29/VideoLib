@@ -102,33 +102,18 @@ const Navbar = () => {
         <Link to="/login" style={{ textDecoration: "none" }}>
           <Button>
             <AccountCircleIcon />
-            SIGN IN
+            log IN
           </Button>
         </Link>
-        {user && <p>{user.name}</p>}
-        {/* <Link to="/register" style={{ textDecoration: "none" }}>
+        <Link to="/register" style={{ textDecoration: "none" }}>
           <Button>
             <AccountCircleIcon />
             register
           </Button>
-        </Link> */}
+        </Link>
+        {user && <p>{user.name}</p>}
 
         <Button onClick={logoutHandler}>logout</Button>
-
-        {/* {currentUser ? (
-          <User>
-            <VideoCallOutlinedIcon />
-            <Avatar />
-            {currentUser.name}
-          </User>
-        ) : (
-          <Link to="/signIn" style={{ textDecoration: "none" }}>
-            <Button>
-              <AccountCircleIcon />
-              SIGN IN
-            </Button>
-          </Link>
-        )} */}
       </Wrapper>
     </Container>
   );

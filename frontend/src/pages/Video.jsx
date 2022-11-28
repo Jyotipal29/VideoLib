@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
+import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
@@ -145,11 +146,23 @@ const Video = () => {
     const { data } = await axios.put(`${api}users/like/${id}`, {}, config);
     console.log(data.video, "data");
     dispatch({
-      type: "TOGGLE_LIKE",
+      type: "LIKE_VIDEO",
       payload: data.video,
     });
   };
   console.log(likedVideos, "likedVideos");
+  const dislikeHandler = async (id) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    const { data } = await axios.put(`${api}users/dislike/${id}`, {}, config);
+    dispatch({
+      type: "DISLIKE_VIDEO",
+      payload: data.video,
+    });
+  };
 
   const watchLaterHandler = async ({
     _id,
@@ -191,12 +204,12 @@ const Video = () => {
           <Title>{video.title}</Title>
           <Details>
             <Buttons>
-              <Button
-                // style={{ color: isVideoLiked ? "red" : "blue" }}
-                onClick={() => likeHandler(video._id)}
-              >
+              <Button onClick={() => likeHandler(video._id)}>
                 <ThumbUpIcon />
                 like{video.likes}
+              </Button>
+              <Button onClick={() => dislikeHandler(video._id)}>
+                <ThumbDownOffAltOutlinedIcon />
               </Button>
 
               <Button onClick={() => watchLaterHandler(video)}>

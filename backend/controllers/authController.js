@@ -6,11 +6,7 @@ const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 
 const register = asyncHandler(async (req, res) => {
-  const {
-    name,
-    email,
-    password
-  } = req.body;
+  const { name, email, password } = req.body;
   if (!name || !email || !password) {
     res.status(400);
     throw new Error("please add all fields");
@@ -18,7 +14,7 @@ const register = asyncHandler(async (req, res) => {
 
   //check if user exist
   const userExists = await User.findOne({
-    name
+    email,
   });
   if (userExists) {
     res.status(400);
@@ -49,14 +45,11 @@ const register = asyncHandler(async (req, res) => {
 });
 
 const login = asyncHandler(async (req, res) => {
-  const {
-    name,
-    password
-  } = req.body;
+  const { email, password } = req.body;
 
   //check for user email
   const user = await User.findOne({
-    name
+    email,
   });
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
