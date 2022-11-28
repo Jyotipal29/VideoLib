@@ -1,7 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
-
+const errorHandler = require("./middelwear/error");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/usersRoutes");
@@ -20,6 +20,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/wl", watchLaterRoutes);
+app.use(errorHandler);
 
 const port = 8080;
 app.listen(port, () => console.log(`listening in port number ${port}`));

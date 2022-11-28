@@ -51,11 +51,11 @@ const Register = () => {
 
       navigate("/");
     } catch (error) {
-      setError(error.response.data);
+      setError(error.response.data.error);
       setTimeout(() => {
         setError("");
       }, 5000);
-      console.log(error.response.data, "error");
+      console.log(error.response.data.error, "error");
     }
   };
   return (
