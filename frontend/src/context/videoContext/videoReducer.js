@@ -13,6 +13,13 @@ export const VideoReducer = (videoState, action) => {
 
         video: action.payload,
       };
+    case "LIKE_VIDEO":
+      return {
+        ...videoState,
+        video: videoState.videos.map((video) =>
+          video._id === action.payload._id ? action.payload : video
+        ),
+      };
     case "GET_WATCHLATER":
       return {
         ...videoState,
@@ -46,8 +53,7 @@ export const VideoReducer = (videoState, action) => {
       };
     case "FILTER_BY_SEARCH":
       return { ...videoState, searchQuery: action.payload };
-    
-     
+
     default:
       return videoState;
   }

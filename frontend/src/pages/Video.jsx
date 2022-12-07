@@ -143,11 +143,11 @@ const Video = () => {
         Authorization: `Bearer ${user.token}`,
       },
     };
-    const { data } = await axios.put(`${api}users/like/${id}`, {}, config);
-    console.log(data.video, "data");
-    dispatch({
+    const { data } = await axios.put(`${api}videos/like/${id}`, {}, config);
+    console.log(data, "like payload data");
+    videoDispatch({
       type: "LIKE_VIDEO",
-      payload: data.video,
+      payload: data,
     });
   };
   console.log(likedVideos, "likedVideos");
@@ -221,7 +221,7 @@ const Video = () => {
       )}
     </Container>
   );
-};
+};;
 
 export default Video;
 

@@ -20,12 +20,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add a password"],
     },
-    likedVideos: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Video",
-      },
-    ],
   },
   {
     timestamps: true,

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-
+const Schema = mongoose.Schema;
+const  ObjectId = Schema.ObjectId;
 const VideoSchema = new mongoose.Schema(
   {
     title: {
@@ -23,7 +24,8 @@ const VideoSchema = new mongoose.Schema(
       required: true,
     },
     likes: {
-      type: Number,
+      type: [ObjectId],
+      default: [],
     },
     tag: {
       type: [String],
@@ -36,3 +38,9 @@ const VideoSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("Video", VideoSchema);
+
+
+// likes: {
+//       type: [ObjectId],
+      // default: [],
+    // }

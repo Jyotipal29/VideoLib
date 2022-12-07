@@ -14,7 +14,7 @@ export const useUser = () => {
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(UserReducer, {
     user: JSON.parse(localStorage.getItem("user") || null) || [],
-    likedVideos: [],
+    // likedVideos: [],
   });
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [isAuth, setIsAuth] = useState(

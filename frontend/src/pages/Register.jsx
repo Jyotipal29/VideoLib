@@ -24,7 +24,7 @@ const Register = () => {
   // console.log(user);
   const registerHandler = async (e) => {
     e.preventDefault();
-    console.log(password !== cnfPassword, "check");
+    console.log(name, email, password, cnfPassword, "all data");
     if (password !== cnfPassword) {
       setPassword("");
       setCnfPassword("");

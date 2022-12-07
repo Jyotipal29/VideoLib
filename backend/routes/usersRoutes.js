@@ -8,7 +8,6 @@ const {
   subscribe,
   unSubscrie,
   like,
-  disLike,
 } = require("../controllers/userController");
 
 //update user
@@ -23,9 +22,8 @@ router.put("/sub/:id", subscribe);
 //unsubscribe
 router.put("/unsub/:id", unSubscrie);
 //like a vidio
-router.put("/like/:id", protect, like);
 
 //dislike a video
-router.put("/dislike/:id", protect, disLike);
+// router.put("/dislike/:id", protect, disLike);
 
 module.exports = router;

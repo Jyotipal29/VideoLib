@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
 const Video = require("../models/Video");
 const ObjectId = require("mongodb").ObjectId;
+const mongoose = require("mongoose");
 
 const getVideo = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -26,9 +27,30 @@ const allVideos = asyncHandler(async (req, res) => {
   const videos = await Video.find(query);
   res.status(201).json(videos);
 });
+const like = async (req, res) => {
+  const { id } = req.params;
+  if (!req.user.id) return res.json({ message: "unauthenticated" });
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("no post with the id");
+
+  const video = await Video.findById(id);
+  console.log(video, "video is this ");
+  const index = video.likes.findIndex((id) => id === String(req.user.id));
+  if (index === -1) {
+    //like
+    video.likes.push(req.user.id);
+  } else {
+    //dislike
+
+    video.likes = video.likes.filter((id) => id !== String(req.user.id));
+  }
+  const updatedVideo = await Video.findByIdAndUpdate(id, video, { new: true });
+  res.json(updatedVideo);
+};
 
 module.exports = {
   getVideo,
 
   allVideos,
+  like,
 };
