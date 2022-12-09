@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import Card from "../components/Card";
-import { api } from "../constants/api";
-import { useUser } from "../context/userContext/userContext";
-import { useVideo } from "../context/videoContext/videoContext";
-import cat from "../data";
+import Card from "../../components/videoCrad/Card";
+import { api } from "../../constants/api";
+import { useUser } from "../../context/userContext/userContext";
+import { useVideo } from "../../context/videoContext/videoContext";
+import cat from "../../data";
 
 const Container = styled.div`
   display: flex;

@@ -13,7 +13,7 @@ export const useUser = () => {
 
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(UserReducer, {
-    user: JSON.parse(localStorage.getItem("user") || null) || [],
+    user: JSON.parse(localStorage.getItem("user") || null),
     // likedVideos: [],
   });
   const [token, setToken] = useState(localStorage.getItem("token") || null);

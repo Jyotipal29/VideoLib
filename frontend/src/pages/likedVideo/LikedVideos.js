@@ -1,6 +1,6 @@
 import React from "react";
-import { useUser } from "../context/userContext/userContext";
-import Card from "../components/Card";
+import { useUser } from "../../context/userContext/userContext";
+import Card from "../../components/videoCrad/Card";
 import styled from "styled-components";
 const VideosContainer = styled.div``;
 const LikedVideos = () => {

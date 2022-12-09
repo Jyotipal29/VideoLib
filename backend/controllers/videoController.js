@@ -31,7 +31,7 @@ const like = async (req, res) => {
   const { id } = req.params;
   if (!req.user.id) return res.json({ message: "unauthenticated" });
   if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send("no post with the id");
+    return res.status(404).send("no video with the id");
 
   const video = await Video.findById(id);
   console.log(video, "video is this ");

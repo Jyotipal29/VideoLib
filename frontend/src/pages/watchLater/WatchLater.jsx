@@ -2,9 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { api } from "../constants/api";
-import { useUser } from "../context/userContext/userContext";
-import { useVideo } from "../context/videoContext/videoContext";
+import { api } from "../../constants/api";
+import { useUser } from "../../context/userContext/userContext";
+import { useVideo } from "../../context/videoContext/videoContext";
 const Container = styled.div`
   width: ${(props) => props.type !== "sm" && "360px"};
   margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "45px")};

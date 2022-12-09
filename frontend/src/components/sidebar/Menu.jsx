@@ -12,6 +12,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "./menu.css";
 const Container = styled.div`
   flex: 1;
   background-color: #181818;
@@ -62,59 +63,42 @@ const Menu = () => {
   // const { currentUser } = useSelector((state) => state.user);
 
   return (
-    <Container>
-      <Wrapper>
-        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <Logo>WatchIt</Logo>
-        </Link>
+    <div className="sidebar-items">
+      <Link
+        to="/"
+        className="sidebar-item"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <HomeIcon />
+        Home
+      </Link>
+      <Link
+        to="/liked"
+        className="sidebar-item"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <ThumbUpIcon />
+        Liked
+      </Link>
 
-        <Item>
-          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-            <HomeIcon />
-            Home
-          </Link>
-        </Item>
-        <Link to="trend" style={{ textDecoration: "none", color: "inherit" }}>
-          <Item>
-            <Link
-              to="/liked"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <ThumbUpIcon />
-              Liked
-            </Link>
-          </Item>
-        </Link>
+      <Link
+        to="#"
+        className="sidebar-item"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <LibraryAddIcon />
+        playlists
+      </Link>
 
-        <Item>
-          <LibraryAddIcon />
-          playlists
-        </Item>
-        <Link
-          to="/watchlater"
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <Item>
-            <WatchLaterIcon />
-            watch later
-          </Item>
-        </Link>
-
-        {/* {!currentUser && (
-          <>
-            <Login>
-              Sing i to like videos,comment and subscribe.
-              <Link to="signIn" style={{ textDecoration: "none" }}>
-                <Button>
-                  <AccountCircleIcon />
-                  SIGN IN
-                </Button>
-              </Link>
-            </Login>
-          </>
-        )} */}
-      </Wrapper>
-    </Container>
+      <Link
+        to="/watchlater"
+        className="sidebar-item"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <WatchLaterIcon />
+        watch later
+      </Link>
+    </div>
   );
 };
 

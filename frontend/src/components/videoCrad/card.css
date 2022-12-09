@@ -1,0 +1,23 @@
+img{
+    width:200px;
+    height: 200px;
+}
+.video-content{
+    margin-bottom: 25px;
+    position: relative;
+    transition: .5s;
+    width:100%;
+}
+.video-info{
+     /* display: flex; */
+    color: #fff;
+    padding-top: 12px;
+}
+
+.video-title{
+    font-size: .9rem;
+
+}
+.creator-name{
+    margin-top: 10px;
+}

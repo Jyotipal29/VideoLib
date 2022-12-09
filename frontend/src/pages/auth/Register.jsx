@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { api } from "../constants/api";
+import { api } from "../../constants/api";
 import { Link, useNavigate } from "react-router-dom";
-import { useUser } from "../context/userContext/userContext";
+import { useUser } from "../../context/userContext/userContext";
 import "./register.css";
 
 const Register = () => {

@@ -6,16 +6,15 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import Menu from "./components/Menu";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import Video from "./pages/Video";
-import SignIn from "./pages/SignIn";
-import Register from "./pages/Register";
-import Filters from "./components/Filters";
-import Filtered from "./pages/Filtered";
-import WatchLater from "./pages/WatchLater";
-import LikedVideos from "./pages/LikedVideos";
+import Menu from "./components/sidebar/Menu";
+import Navbar from "./components/navbar/Navbar";
+import Home from "./pages/home/Home";
+import Video from "./pages/video/Video";
+import SignIn from "./pages/auth/SignIn";
+import Register from "./pages/auth/Register";
+import Filtered from "./pages/filter/Filtered";
+import WatchLater from "./pages/watchLater/WatchLater";
+import LikedVideos from "./pages/likedVideo/LikedVideos";
 const Container = styled.div`
   display: flex;
 `;
@@ -32,23 +31,24 @@ function App() {
     // <ThemeProvider>
     <Container>
       <BrowserRouter>
-        <Menu />
+        {/* <Menu /> */}
         <Main>
           <Navbar />
-          <Filters />
+          {/* <Filters /> */}
           <Wrapper>
             <Routes>
               <Route path="/" index element={<Home />} />
+              <Route path="/videos/:id" index element={<Video />} />
+
               <Route path="/watchlater" index element={<WatchLater />} />
               <Route path="/liked" index element={<LikedVideos />} />
-              <Route path="/filtered" index element={<Filtered />} />
-              <Route path="/videos/:id" index element={<Video />} />
+              {/* <Route path="/filtered" index element={<Filtered />} />
               <Route path="/register" index element={<Register />} />
               <Route path="/login" index element={<SignIn />} />
-              {/* <Route path="/trend" element={<Home />} />
+              <Route path="/trend" element={<Home />} />
               <Route path="/subscriptions" element={<Home />} />
-              <Route path="/signin" element={<SignIn />} /> */}
-              {/* <Route path="/videos/:id" element={<Video />} /> */}
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/videos/:id" element={<Video />} /> */}
             </Routes>
           </Wrapper>
         </Main>
