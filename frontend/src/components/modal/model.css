@@ -1,0 +1,37 @@
+.modal-container{
+  width:100vw;
+  height:100vh;
+position: fixed;  
+top:0;
+left:0;
+background-color: rgba(0,0,0,0.2);
+z-index: 999;
+display: flex;
+justify-content: center;
+align-items: center;
+overflow: hidden;
+}
+
+.modal-card{
+/* border:1px solid black; */
+position: relative;
+width:500px;
+height: 300px;
+box-shadow: 0  0 5px 3px rgba(0,0,0,0.2);
+background-color: white;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.modal-close{
+position: absolute;
+top:10px;
+right:10px;
+font-size: 30px;
+cursor: pointer;
+}
+
+.card-remove{
+  display:none;
+}

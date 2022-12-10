@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
@@ -9,6 +10,7 @@ import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import uuid from "react-uuid";
 import { useLocation } from "react-router-dom";
 
 import { useVideo } from "../../context/videoContext/videoContext";
@@ -16,6 +18,9 @@ import { useEffect } from "react";
 import axios from "axios";
 import { api } from "../../constants/api";
 import { useUser } from "../../context/userContext/userContext";
+import Model from "../../components/modal/Model";
+import { usePlaylist } from "../../context/playlistContext/playlistContext";
+import PlaylistCheckBox from "../../components/checkBox/playlistCheckBox";
 const Container = styled.div`
   display: flex;
   gap: 24px;
@@ -117,6 +122,23 @@ const VideoFrame = styled.video`
 `;
 
 const Video = () => {
+  const [showModel, setShowModel] = useState(false);
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [playlistName, setPlaylistName] = useState(" ");
+  const { playlists, playlistDispatch } = usePlaylist();
+  const createNewPlaylist = ({ name, video }) => {
+    playlistDispatch({
+      type: "CREATE_PLAYLIST",
+      playlist: {
+        id: uuid(),
+        name,
+        videos: [video],
+      },
+    });
+    console.log("added to the playlist");
+    setShowModel(false);
+    setPlaylistName(" ");
+  };
   const {
     videoState: { video, watchLater },
     videoDispatch,
@@ -214,7 +236,7 @@ const Video = () => {
                 <ThumbDownOffAltOutlinedIcon />
               </Button> */}
 
-              <Button onClick={() => watchLaterHandler(video)}>
+              <Button onClick={() => setShowModel(true)}>
                 <LibraryAddIcon />
                 playlist
               </Button>
@@ -222,6 +244,52 @@ const Video = () => {
                 <AddTaskOutlinedIcon /> Save
               </Button>
             </Buttons>
+            <Model showModel={showModel} setShowModel={setShowModel}>
+              <div>
+                add to
+                <ul>
+                  {playlists.map(({ id, ...rest }) => (
+                    <li key={id}>
+                      <PlaylistCheckBox
+                        playlistId={id}
+                        video={video}
+                        {...rest}
+                      />
+                    </li>
+                  ))}
+                </ul>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={showNameInput}
+                    onChange={() => setShowNameInput((prev) => !prev)}
+                  />
+                  Create New Playlist
+                </label>
+                {showNameInput && (
+                  <div>
+                    <label>name</label>
+                    <input
+                      class="input"
+                      type="text"
+                      value={playlistName}
+                      onChange={(e) => setPlaylistName(e.target.value)}
+                    />
+                    <button
+                      className="btn bg-primary mt-1 mr-1 align-end"
+                      onClick={() =>
+                        createNewPlaylist({
+                          name: playlistName,
+                          video,
+                        })
+                      }
+                    >
+                      Create
+                    </button>
+                  </div>
+                )}
+              </div>
+            </Model>
           </Details>
         </Content>
       )}

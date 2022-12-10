@@ -82,7 +82,7 @@ const Menu = () => {
       </Link>
 
       <Link
-        to="#"
+        to="/playlist"
         className="sidebar-item"
         style={{ textDecoration: "none", color: "inherit" }}
       >

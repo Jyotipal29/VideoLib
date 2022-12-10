@@ -6,13 +6,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UserProvider } from "./context/userContext/userContext";
 import { VideoProvider } from "./context/videoContext/videoContext";
+import { PlaylistProvider } from "./context/playlistContext/playlistContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <UserProvider>
       <VideoProvider>
-        <App />
+        <PlaylistProvider>
+          <App />
+        </PlaylistProvider>
       </VideoProvider>
     </UserProvider>
   </React.StrictMode>

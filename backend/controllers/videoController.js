@@ -40,9 +40,13 @@ const like = async (req, res) => {
     //like
     video.likes.push(req.user.id);
   } else {
+    video.likes = video.likes.filter(
+      (id) => id.toString() != req.user.id.toString()
+    );
     //dislike
-
-    video.likes = video.likes.filter((id) => id !== String(req.user.id));
+    // video.likes = video.likes.filter(
+    //   (id) => id.toString() != req.user.id.toString())
+    // );
   }
   const updatedVideo = await Video.findByIdAndUpdate(id, video, { new: true });
   res.json(updatedVideo);
