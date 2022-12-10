@@ -1,5 +1,3 @@
-// import { STATES } from "mongoose";
-
 export const VideoReducer = (videoState, action) => {
   switch (action.type) {
     case "GET_VIDEOS":
@@ -19,6 +17,7 @@ export const VideoReducer = (videoState, action) => {
         videos: videoState.videos.map((video) =>
           video._id === action.payload._id ? action.payload : video
         ),
+        video: action.payload,
       };
     case "GET_WATCHLATER":
       return {
@@ -58,13 +57,3 @@ export const VideoReducer = (videoState, action) => {
       return videoState;
   }
 };
-
-// if (!videoState.video.likes.includes(action.payload.id)) {
-//   videoState.video.likes.push(action.payload.id);
-//   videoState.video.dislikes.splice(
-//     videoState.video.dislikes.findIndex(
-//       (userId) => userId === action.payload.id
-//     ),
-//     1
-//   );
-// }

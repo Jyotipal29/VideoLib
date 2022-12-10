@@ -1,4 +1,5 @@
 import React from "react";
+import "./liked.css";
 import { useUser } from "../../context/userContext/userContext";
 import Card from "../../components/videoCrad/Card";
 import styled from "styled-components";

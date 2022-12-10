@@ -58,7 +58,6 @@ const like = async (req, res) => {
 
 module.exports = {
   getVideo,
-
   allVideos,
   like,
 };
