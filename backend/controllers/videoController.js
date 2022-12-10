@@ -35,15 +35,19 @@ const like = async (req, res) => {
 
   const video = await Video.findById(id);
   console.log(video, "video is this ");
-  const index = video.likes.findIndex((id) => id === String(req.user.id));
+  const index = video.likes.findIndex(
+    (id) => id.toString() === req.user.id.toString()
+  );
   if (index === -1) {
     //like
     video.likes.push(req.user.id);
+    // console.log("liked");
   } else {
+    //dislike
+    // console.log(video.likes, "likes video");
     video.likes = video.likes.filter(
       (id) => id.toString() != req.user.id.toString()
     );
-    //dislike
     // video.likes = video.likes.filter(
     //   (id) => id.toString() != req.user.id.toString())
     // );
