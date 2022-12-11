@@ -59,7 +59,9 @@ const Navbar = () => {
               {user.name.charAt(0)}
               <AccountCircleIcon />
             </h2>
-            <button className="nav-btn">logout</button>
+            <button className="nav-btn" onClick={logoutHandler}>
+              logout
+            </button>
           </>
         ) : (
           <>

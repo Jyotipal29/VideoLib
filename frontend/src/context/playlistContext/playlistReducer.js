@@ -9,7 +9,7 @@ export const playlistReducer = (
       };
     case "DELETE_PLAYLIST":
       return {
-        playlists: playlists.filter((playlist) => playlist._id !== playlistId),
+        playlists: playlists.filter(({id}) => id !== playlistId),
       };
     case "ADD_TO_PLAYLIST":
       return {
@@ -24,7 +24,11 @@ export const playlistReducer = (
         playlists: playlists.map(({ id, videos, name }) =>
           id !== playlistId
             ? { id, videos, name }
-            : { id, name, videos: videos.filter(({ id }) => id !== videoId) }
+            : {
+                id,
+                name,
+                videos: videos.filter((item) => item._id !== videoId),
+              }
         ),
       };
 

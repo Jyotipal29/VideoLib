@@ -44,10 +44,11 @@ function App() {
               <Route path="/watchlater" index element={<WatchLater />} />
               <Route path="/liked" index element={<LikedVideos />} />
               <Route path="/playlist" index element={<Playlist />} />
-
-              {/* <Route path="/filtered" index element={<Filtered />} />
               <Route path="/register" index element={<Register />} />
               <Route path="/login" index element={<SignIn />} />
+
+              {/* <Route path="/filtered" index element={<Filtered />} />
+              
               <Route path="/trend" element={<Home />} />
               <Route path="/subscriptions" element={<Home />} />
               <Route path="/signin" element={<SignIn />} />
