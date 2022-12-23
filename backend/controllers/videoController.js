@@ -3,17 +3,34 @@ const User = require("../models/User");
 const Video = require("../models/Video");
 const ObjectId = require("mongodb").ObjectId;
 const mongoose = require("mongoose");
+const VideoLike = require("../models/VideoLike");
+
+async function getTotalLikes(videoId) {
+  return await VideoLike.estimatedDocumentCount({
+    video: videoId,
+  });
+}
+
+async function getVideoInfo(videoId) {
+  const video = await Video.findById(ObjectId(videoId));
+
+  if (!video) {
+    return null;
+  }
+
+  return { ...video.toObject(), totalLikes: await getTotalLikes(videoId) };
+}
 
 const getVideo = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id, "id");
-  const video = await Video.findById(ObjectId(id));
-  console.log(video, "video");
-  if (video) {
-    res.status(200).json(video);
-  } else {
+  const video = await getVideoInfo(id);
+
+  if (!video) {
     res.status(404).json({ message: "video not found" });
+    return;
   }
+
+  res.status(200).json(video);
 });
 
 const allVideos = asyncHandler(async (req, res) => {
@@ -27,33 +44,40 @@ const allVideos = asyncHandler(async (req, res) => {
   const videos = await Video.find(query);
   res.status(201).json(videos);
 });
-const like = async (req, res) => {
-  const { id } = req.params;
-  if (!req.user.id) return res.json({ message: "unauthenticated" });
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send("no video with the id");
 
-  const video = await Video.findById(id);
-  console.log(video, "video is this ");
-  const index = video.likes.findIndex(
-    (id) => id.toString() === req.user.id.toString()
-  );
-  if (index === -1) {
-    //like
-    video.likes.push(req.user.id);
-    // console.log("liked");
-  } else {
-    //dislike
-    // console.log(video.likes, "likes video");
-    video.likes = video.likes.filter(
-      (id) => id.toString() != req.user.id.toString()
-    );
-    // video.likes = video.likes.filter(
-    //   (id) => id.toString() != req.user.id.toString())
-    // );
+const like = async (req, res) => {
+  try {
+    const userid = req.user.id;
+    const videoid = req.params.id;
+    console.log(videoid);
+
+    const hasLiked = await VideoLike.findOne({
+      user: userid,
+    });
+
+    if (hasLiked) {
+      await hasLiked.delete();
+    } else {
+      await VideoLike.create({
+        user: userid,
+        video: videoid,
+      });
+    }
+
+    // let user = await User.findById(userid).exec();
+    // console.log(user);
+    // if (user.likes.includes(videoid)) {
+    //   user.likes = user.likes.filter(
+    //     (video) => video.toString() != videoid.toString()
+    //   );
+    // } else {
+    //   user.likes.push(videoid);
+    // }
+
+    res.status(200).json(await getVideoInfo(videoid));
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-  const updatedVideo = await Video.findByIdAndUpdate(id, video, { new: true });
-  res.json(updatedVideo);
 };
 
 module.exports = {

@@ -16,6 +16,8 @@ import Filtered from "./pages/filter/Filtered";
 import WatchLater from "./pages/watchLater/WatchLater";
 import LikedVideos from "./pages/likedVideo/LikedVideos";
 import Playlist from "./pages/playlist/playlist";
+import Filter from "./components/filter/Filter";
+import Homevideo from "./pages/homeVideo/Homevideo";
 const Container = styled.div`
   display: flex;
 `;
@@ -38,7 +40,7 @@ function App() {
           {/* <Filters /> */}
           <Wrapper>
             <Routes>
-              <Route path="/" index element={<Home />} />
+              <Route path="/" index element={<Homevideo />} />
               <Route path="/videos/:id" index element={<Video />} />
 
               <Route path="/watchlater" index element={<WatchLater />} />

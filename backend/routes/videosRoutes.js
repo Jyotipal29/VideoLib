@@ -12,6 +12,7 @@ const {
 
 router.get("/find/:id", getVideo);
 router.get("/", allVideos);
+
 router.put("/like/:id", protect, like);
 
 module.exports = router;

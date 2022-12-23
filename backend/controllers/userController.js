@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { default: mongoose } = require("mongoose");
 const User = require("../models/User");
 const Video = require("../models/Video");
+const VideoLike = require("../models/VideoLike");
 const { post } = require("../routes/authRoutes");
 const update = asyncHandler(async (req, res) => {
   if (req.params.id === req.user.id) {
@@ -70,142 +71,23 @@ const unSubscrie = asyncHandler(async (req, res) => {
   res.status(200).json("unsubscription succesful");
 });
 
-// const like = asyncHandler(async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     // console.log(req.params.id, "id");
-//     const video = await Video.findByIdAndUpdate({
-//       _id: id
-//     }, {
-//       $inc: {
-//         likes: 1
-//       },
-//     });
-//     console.log(video, "video");
-//     const user = await User.findByIdAndUpdate(req.user._id, {
-//       $push: {
-//         likedVideos: id
-//       },
-//     });
+const getLiked = async (req, res) => {
+  try {
+    const userid = req.user._id;
+    const likes = await VideoLike.find({
+      user: userid,
+    }).populate("video");
 
-//     res.json({
-//       video,
-//       user
-//     });
-//   } catch (e) {
-//     res.status(500).json({
-//       success: false,
-//       error: {
-//         message: "Mongoose error: " + e.message,
-//       },
-//     });
-//   }
-// });
+    let user = await User.findById(userid);
+    const videos = likes.map((like) => like.video.toObject());
 
-// const disLike = asyncHandler(async (req, res) => {
-//   try {
-//     const id = req.params.id;
+    // console.log("fetch videos called", videos);
 
-//     const video = await Video.findByIdAndUpdate({
-//       _id: id
-//     }, {
-//       $inc: {
-//         likes: -1
-//       },
-//     });
-//     const user = await User.findByIdAndUpdate(req.user._id, {
-//       $pull: {
-//         likedVideos: id
-//       },
-//     });
-
-//     res.json({
-//       success: true,
-//       user,
-//       video,
-//     });
-//   } catch (e) {
-//     res.status(500).json({
-//       success: false,
-//       error: {
-//         message: "Mongoose error: " + e.message,
-//       },
-//     });
-//   }
-// });
-
-// like
-// const like = asyncHandler(async (req, res) => {
-//   try {
-//     const { id } = req.params;
-
-//     const video = await Video.findByIdAndUpdate(id, {
-//       $inc: { likes: 1 },
-//     });
-//     const user = await User.findByIdAndUpdate(req.user.id, {
-//       $push: { likedVideos: id },
-//     });
-
-//     res.json({
-//       success: true,
-//       video,
-//     });
-//   } catch (e) {
-//     res.status(500).json({
-//       success: false,
-//       error: {
-//         message: "Mongoose error: " + e.message,
-//       },
-//     });
-//   }
-// })
-
-//  dislike
-
-// const disLike = asyncHandler(async (req, res) => {
-//   try {
-//     const { id } = req.params;
-
-//     const video = await Video.findByIdAndUpdate(id, {
-//       $inc: { likes: -1 },
-//     });
-//     const user = await User.findByIdAndUpdate(req.user.id, {
-//       $pull: { likedVideos:id },
-//     });
-
-//     res.json({
-//       success: true,
-//       video,
-//     });
-//   } catch (e) {
-//     res.status(500).json({
-//       success: false,
-//       error: {
-//         message: "Mongoose error: " + e.message,
-//       },
-//     });
-//   }
-//
-
-// const like = async (req, res) => {
-//   const { id } = req.params;
-//   if (!req.user.id) return res.json({ message: "unauthenticated" });
-//   if (!mongoose.Types.ObjectId.isValid(id))
-//     return res.status(404).send("no post with the id");
-
-//   const video = await Video.findById(id);
-//   const index = video.likes.findIndex((id) => id === String(req.user.id));
-//   if (index === -1) {
-//     //like
-//     video.likes.push(req.user.id);
-//   } else {
-//     //dislike
-
-//     video.likes = video.likes.filter((id) => id !== String(req.user.id));
-//   }
-//   const updatedVideo = await post.findByIdAndUpdate(id, video, { new: true });
-//   res.json(updatedVideo);
-// };
+    res.status(200).json(videos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   update,
@@ -213,4 +95,5 @@ module.exports = {
   getUser,
   subscribe,
   unSubscrie,
+  getLiked,
 };

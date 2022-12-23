@@ -3,22 +3,16 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 const VideoLikeSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
+    video: {
+      type: ObjectId,
       required: true,
+      ref: "Video",
     },
     user: {
       type: ObjectId,
       required: true,
       ref: "User",
     },
-    videos: [
-      {
-        type: ObjectId,
-        required: true,
-        ref: "Video",
-      },
-    ],
   },
   {
     timestamps: true,

@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { usePlaylist } from "../../context/playlistContext/playlistContext";
-
+import Home from "../home/Home";
+import "./playlist.css";
 const Playlist = () => {
   const { playlists, playlistDispatch } = usePlaylist();
   // console.log(playlists, "playlists");
@@ -18,49 +20,47 @@ const Playlist = () => {
     });
   };
   return (
-    <div style={{ marginTop: "100px" }}>
-      {playlists.map(({ id, name, videos }) => {
-        console.log(id, "playlist id");
+    <Home>
+      <div className="playlist-container">
+        {playlists.map(({ id, name, videos }) => {
+          console.log(id, "playlist id");
 
-        return (
-          <div>
-            <h3>{name}</h3>
-            <button onClick={() => deletePlaylist(id)}>delete playlist</button>
-            <div
-              style={{
-                border: "2px solid black",
-              }}
-            >
-              {videos.map(({ title, videoUrl, creator, _id }) => (
-                <>
-                  <div>
-                    <iframe
-                      width="100%"
-                      height="500"
-                      title="youtube video"
-                      src={videoUrl}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                  <div>
-                    <p>{title}</p>
-                    <p>{creator}</p>
-                    <button
-                      onClick={() => deleteVideoFromPlaylist({ _id, id })}
+          return (
+            <div className="playlist-wrapper">
+              <div className="playlist-title">
+                <h2>{name}</h2>
+                <button onClick={() => deletePlaylist(id)}>x</button>
+              </div>
+
+              <div className="pl-video-container">
+                {videos.map(
+                  ({ title, videoUrl, creator, _id, thumbnailUrl }) => (
+                    <Link
+                      to={`/videos/${_id}`}
+                      style={{ textDecoration: "none" }}
                     >
-                      {" "}
-                      delete video
-                    </button>
-                  </div>
-                </>
-              ))}
+                      <div className="pl-video-card">
+                        <img src={thumbnailUrl} />
+                        <div>
+                          <h3>{title}</h3>
+                          <p>{creator}</p>
+                          <button
+                            onClick={() => deleteVideoFromPlaylist({ _id, id })}
+                          >
+                            {" "}
+                            x
+                          </button>
+                        </div>
+                      </div>
+                    </Link>
+                  )
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </Home>
   );
 };
 

@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { api } from "../../constants/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext/userContext";
-import "./register.css";
+import "./auth.css";
 
 const SignIn = () => {
   const [email, setEmail] = useState(" ");
@@ -20,8 +22,10 @@ const SignIn = () => {
     setIsAuth,
   } = useUser();
   // console.log(user);
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const { data } = await axios.post(`${api}auth/login`, {
         email,
@@ -38,10 +42,17 @@ const SignIn = () => {
         localStorage.setItem("token", token);
         setIsAuth(true);
         setToken(token);
+        toast.success("logged in  successfully", {
+          className: "addZIndex",
+        });
       }
 
       navigate("/");
     } catch (error) {
+      toast.error("something went wrong", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+
       setError(error.response.data.error);
       setTimeout(() => {
         setError("");
@@ -69,14 +80,21 @@ const SignIn = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button onClick={handleLogin} className="form-btn">
+        <button onClick={handleLogin} className="btn-prim">
           Sign In
         </button>
 
-        <button className="form-btn">
-          <Link to="/register"> dont have an account ? register</Link>
+        <button className="btn-sec">
+          <Link
+            to="/register"
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            {" "}
+            dont have an account ? register
+          </Link>
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

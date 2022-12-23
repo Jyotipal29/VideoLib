@@ -1,5 +1,7 @@
 import { usePlaylist } from "../../context/playlistContext/playlistContext";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const PlaylistCheckBox = ({ video, playlistId, name, videos }) => {
   //   console.log(playlists, "videos jo aya");
   const { playlists, playlistDispatch } = usePlaylist();
@@ -15,7 +17,9 @@ const PlaylistCheckBox = ({ video, playlistId, name, videos }) => {
           playlistId,
           videoId: video._id,
         });
+
     setIsInPlaylist((prev) => !prev);
+    toast.success("video added in playlist");
   };
   return (
     <div>
@@ -25,6 +29,8 @@ const PlaylistCheckBox = ({ video, playlistId, name, videos }) => {
         onChange={(e) => updatePlaylist({ e, playlistId, video })}
       />
       {name}
+
+      <ToastContainer />
     </div>
   );
 };

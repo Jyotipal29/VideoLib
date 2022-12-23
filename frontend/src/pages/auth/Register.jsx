@@ -1,10 +1,12 @@
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { api } from "../../constants/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext/userContext";
-import "./register.css";
+import "./auth.css";
 
 const Register = () => {
   const [name, setName] = useState(" ");
@@ -47,10 +49,13 @@ const Register = () => {
         localStorage.setItem("token", token);
         setIsAuth(true);
         setToken(token);
+        toast.success("registered successfully");
       }
 
       navigate("/");
     } catch (error) {
+      toast.error("something went wrong");
+
       setError(error.response.data.error);
       setTimeout(() => {
         setError("");
@@ -90,13 +95,20 @@ const Register = () => {
             onChange={(e) => setCnfPassword(e.target.value)}
           />
         </div>
-        <button onClick={registerHandler} className="form-btn">
+        <button onClick={registerHandler} className="btn-prim">
           Sign up
         </button>
-        <button className="form-btn login">
-          <Link to="/login"> already have an account ? login</Link>
+        <button className="btn-sec">
+          <Link
+            to="/login"
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            {" "}
+            already have an account ? login
+          </Link>
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { api } from "../../constants/api";
 import { useUser } from "../../context/userContext/userContext";
 import { useVideo } from "../../context/videoContext/videoContext";
+import Home from "../home/Home";
+import "./watchlater.css";
 const Container = styled.div`
   width: ${(props) => props.type !== "sm" && "360px"};
   margin-bottom: ${(props) => (props.type === "sm" ? "10px" : "45px")};
@@ -94,23 +96,31 @@ const WatchLater = () => {
   //   console.log(item, "item");
 
   return (
-    <>
-      {watchLater &&
-        watchLater.map((item) => (
-          <Container>
-            <Image src={item.thumbnailUrl} />
-            <Details>
-              <Texts>
-                <Title>{item.title}</Title>
-                <ChannelName>{item.creator}</ChannelName>
-              </Texts>
-              <Button onClick={() => wlDeleteHandler(item._id)}>
-                remove wl
-              </Button>
-            </Details>
-          </Container>
-        ))}
-    </>
+    <Home>
+      <div className="video-container">
+        {watchLater &&
+          watchLater.map((item) => (
+            <Link
+              to={`/videos/${item.video}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="video-card">
+                <img src={item.thumbnailUrl} />
+                <div className="video-details">
+                  <h3>{item.title}</h3>
+                  <p>{item.creator}</p>
+                </div>
+                <button
+                  className="wl-btn"
+                  onClick={() => wlDeleteHandler(item._id)}
+                >
+                  x
+                </button>
+              </div>
+            </Link>
+          ))}
+      </div>
+    </Home>
   );
 };
 

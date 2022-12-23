@@ -7,7 +7,7 @@ const {
   getUser,
   subscribe,
   unSubscrie,
-  like,
+  getLiked,
 } = require("../controllers/userController");
 
 //update user
@@ -21,9 +21,9 @@ router.get("/find/:id", getUser);
 router.put("/sub/:id", subscribe);
 //unsubscribe
 router.put("/unsub/:id", unSubscrie);
-//like a vidio
 
-//dislike a video
-// router.put("/dislike/:id", protect, disLike);
+//like a vidio
+router.get("/liked", protect, getLiked);
+
 
 module.exports = router;

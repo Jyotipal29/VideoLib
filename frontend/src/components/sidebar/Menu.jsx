@@ -70,7 +70,7 @@ const Menu = () => {
         style={{ textDecoration: "none", color: "inherit" }}
       >
         <HomeIcon />
-        Home
+        <h3>Home</h3>
       </Link>
       <Link
         to="/liked"
@@ -78,7 +78,7 @@ const Menu = () => {
         style={{ textDecoration: "none", color: "inherit" }}
       >
         <ThumbUpIcon />
-        Liked
+        <h3>Liked</h3>
       </Link>
 
       <Link
@@ -87,7 +87,7 @@ const Menu = () => {
         style={{ textDecoration: "none", color: "inherit" }}
       >
         <LibraryAddIcon />
-        playlists
+        <h3>playlists</h3>
       </Link>
 
       <Link
@@ -96,7 +96,7 @@ const Menu = () => {
         style={{ textDecoration: "none", color: "inherit" }}
       >
         <WatchLaterIcon />
-        watch later
+        <h3>watch later</h3>
       </Link>
     </div>
   );

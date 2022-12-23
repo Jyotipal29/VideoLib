@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
 const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -20,7 +19,13 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add a password"],
     },
+    likes: {
+      type: [mongoose.Schema.Types.ObjectId],
+      default: [],
+      ref: "Video",
+    },
   },
+
   {
     timestamps: true,
   }

@@ -1,4 +1,6 @@
 import React from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -21,6 +23,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const logoutHandler = () => {
     dispatch({ type: "LOGOUT" });
+    toast.error("logged out");
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("isAuth");
@@ -40,12 +43,14 @@ const Navbar = () => {
           <input
             placeholder="Search"
             className="search-input"
-            onChange={(e) =>
+            onChange={(e) => {
+              navigate("/");
               videoDispatch({
                 type: "FILTER_BY_SEARCH",
                 payload: e.target.value,
-              })
-            }
+              });
+            }}
+            onClick={() => navigate("/")}
           />
         </form>
         <button className="nav-search-btn">
@@ -80,6 +85,7 @@ const Navbar = () => {
           </>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

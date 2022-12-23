@@ -1,0 +1,28 @@
+
+.video-card{
+    position: relative;
+}
+
+.video-details{
+padding:10px ;
+}
+.video-details h3{
+    color:white;
+}
+.video-details p{
+    color:white;
+}
+
+
+.wl-btn{
+   position: absolute;
+   right:5px;
+   top:-5px;
+color: #3b82f6;
+background-color: transparent;
+border:none;
+padding:5px;
+font-size: 20px;
+font-weight: 900;
+cursor: pointer;
+}

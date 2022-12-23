@@ -1,0 +1,65 @@
+.video-action {
+    cursor: pointer;
+}
+.single-video-container{
+    max-width:700px;
+    margin: 20px auto;
+
+}
+.single-video-title{
+    color:white;
+    padding:10px 20px;
+    background-color: #202020;
+
+}
+.single-video-btns{
+    display: flex;
+    justify-content: space-between;
+    padding:10px 20px;
+    background-color: #202020;
+
+}
+
+.single-video-btns button{
+    background-color:transparent;
+    border:none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    color:#3b82f6
+    /* color:; */
+}
+.single-video-btns small{
+    font-size: 16px;
+    padding:5px;
+}
+
+
+
+
+@media (max-width:1050px) {
+     .single-video-container{
+    max-width:500px;
+    margin: 20px auto;
+
+}
+}
+
+
+
+@media (max-width:600px) {
+
+    .single-video-title{
+        font-size: 20px;
+    }
+    .single-video-container{
+   
+
+}
+   
+}
+
+
+
+
+
