@@ -3,6 +3,7 @@ import Home from "../home/Home";
 import { useVideo } from "../../context/videoContext/videoContext";
 import Card from "../../components/videoCrad/Card";
 import Filter from "../../components/filter/Filter";
+import ClipLoader from "react-spinners/ClipLoader";
 const Homevideo = () => {
   const {
     videoState: { videos, searchQuery },

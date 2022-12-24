@@ -6,8 +6,9 @@ import { api } from "../../constants/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext/userContext";
 import "./auth.css";
-
+import ClipLoader from "react-spinners/ClipLoader";
 const Register = () => {
+  let [loading, setLoading] = useState(false);
   const [name, setName] = useState(" ");
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState(" ");
@@ -34,6 +35,7 @@ const Register = () => {
       }, 5000);
       return setError(" password do not match");
     }
+    setLoading(true);
     try {
       const { data } = await axios.post(`${api}auth/register`, {
         name,
@@ -43,12 +45,13 @@ const Register = () => {
       // console.log(data);
       if (data) {
         dispatch({ type: "REGISTER", payload: data });
+        setLoading(false);
+
         localStorage.setItem("user", JSON.stringify(data));
         localStorage.setItem("isAuth", true);
         localStorage.setItem("token", token);
         setIsAuth(true);
         setToken(token);
-        toast.success("registered successfully");
       }
 
       navigate("/");
@@ -95,7 +98,11 @@ const Register = () => {
           />
         </div>
         <button onClick={registerHandler} className="btn-prim">
-          Sign up
+          {loading ? (
+            <ClipLoader color="white" loading={loading} />
+          ) : (
+            "Register"
+          )}
         </button>
         <button className="btn-sec">
           <Link

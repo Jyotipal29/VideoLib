@@ -6,8 +6,11 @@ import { api } from "../../constants/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext/userContext";
 import "./auth.css";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const SignIn = () => {
+  let [loading, setLoading] = useState(false);
+
   const [email, setEmail] = useState(" ");
   const [password, setPassword] = useState(" ");
   const [error, setError] = useState("");
@@ -22,26 +25,23 @@ const SignIn = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const { data } = await axios.post(`${api}auth/login`, {
         email,
         password,
       });
-      // console.log(data);
 
       const token = data.token;
       if (data) {
         dispatch({ type: "LOGIN", payload: data });
+        setLoading(false);
 
         localStorage.setItem("user", JSON.stringify(data));
         localStorage.setItem("isAuth", true);
         localStorage.setItem("token", token);
         setIsAuth(true);
         setToken(token);
-        toast.success("logged in  successfully", {
-          className: "addZIndex",
-        });
       }
 
       navigate("/");
@@ -78,7 +78,7 @@ const SignIn = () => {
           />
         </div>
         <button onClick={handleLogin} className="btn-prim">
-          Sign In
+          {loading ? <ClipLoader color="white" loading={loading} /> : "log in"}
         </button>
 
         <button className="btn-sec">

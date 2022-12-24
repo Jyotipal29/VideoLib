@@ -18,8 +18,11 @@ import Model from "../../components/modal/Model";
 import { usePlaylist } from "../../context/playlistContext/playlistContext";
 import PlaylistCheckBox from "../../components/checkBox/playlistCheckBox";
 import Home from "../home/Home";
+import FadeLoader from "react-spinners/FadeLoader";
 
 const Video = () => {
+  const [loading, setLoading] = useState(false);
+
   const { id: videoId } = useParams();
   const [showModel, setShowModel] = useState(false);
   const [showNameInput, setShowNameInput] = useState(false);
@@ -63,9 +66,12 @@ const Video = () => {
   const path = useLocation().pathname.split("/")[2];
   console.log(path, "path");
   const fetchVideo = async () => {
+    setLoading(true);
+
     const { data: video } = await axios.get(`${api}videos/find/${videoId}`);
     videoDispatch({ type: "GET_VIDEO", payload: video });
     setCurrentVideo(video);
+    setLoading(false);
   };
   useEffect(() => {
     fetchVideo();
@@ -137,100 +143,113 @@ const Video = () => {
 
   return (
     <Home>
-      {video && (
-        <div className="single-video-container">
-          <div className="single-video-fram">
-            <iframe
-              width="100%"
-              height="500"
-              title="youtube video"
-              src={currentVideo?.videoUrl ?? ""}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-          <h2 className="single-video-title">{currentVideo?.title ?? "N/A"}</h2>
-          <div>
-            <div className="single-video-btns">
-              <button
-                className="video-action"
-                onClick={() => likeHandler(video._id)}
-              >
-                <ThumbUpOutlinedIcon />
-                <small>
-                  {liking ? "liking..." : "like"}
-                  {video?.totalLikes || ""}
-                </small>
-              </button>
-              {/* <Button onClick={() => dislikeHandler(video._id)}>
+      {loading ? (
+        <FadeLoader
+          color="white"
+          height={50}
+          margin={50}
+          width={2}
+          loading={loading}
+        />
+      ) : (
+        video && (
+          <div className="single-video-container">
+            <div className="single-video-fram">
+              <iframe
+                width="100%"
+                height="500"
+                title="youtube video"
+                src={currentVideo?.videoUrl ?? ""}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <h2 className="single-video-title">
+              {currentVideo?.title ?? "N/A"}
+            </h2>
+            <div>
+              <div className="single-video-btns">
+                <button
+                  className="video-action"
+                  onClick={() => likeHandler(video._id)}
+                >
+                  <ThumbUpOutlinedIcon />
+                  <small>
+                    {liking ? "liking..." : "like"}
+                    {video?.totalLikes || ""}
+                  </small>
+                </button>
+                {/* <Button onClick={() => dislikeHandler(video._id)}>
                 <ThumbDownOffAltOutlinedIcon />
               </Button> */}
 
-              <button
-                className="video-action"
-                onClick={() => setShowModel(true)}
-              >
-                <LibraryAddIcon />
-                <small>playlist</small>
-              </button>
-              <button
-                className="video-action"
-                onClick={() => watchLaterHandler(video)}
-              >
-                <AddTaskOutlinedIcon />
-                <small>Watchlater</small>
-              </button>
-            </div>
-            <Model showModel={showModel} setShowModel={setShowModel}>
-              <div>
-                add to
-                <ul>
-                  {playlists.map(({ id, ...rest }) => (
-                    <li key={id}>
-                      <PlaylistCheckBox
-                        playlistId={id}
-                        video={video}
-                        {...rest}
-                      />
-                    </li>
-                  ))}
-                </ul>
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={showNameInput}
-                    onChange={() => setShowNameInput((prev) => !prev)}
-                  />
-                  Create New Playlist
-                </label>
-                {showNameInput && (
-                  <div>
-                    <label>name</label>
-                    <input
-                      class="input"
-                      type="text"
-                      value={playlistName}
-                      onChange={(e) => setPlaylistName(e.target.value)}
-                    />
-                    <button
-                      className="btn bg-primary mt-1 mr-1 align-end"
-                      onClick={() =>
-                        createNewPlaylist({
-                          name: playlistName,
-                          video,
-                        })
-                      }
-                    >
-                      Create
-                    </button>
-                  </div>
-                )}
+                <button
+                  className="video-action"
+                  onClick={() => setShowModel(true)}
+                >
+                  <LibraryAddIcon />
+                  <small>playlist</small>
+                </button>
+                <button
+                  className="video-action"
+                  onClick={() => watchLaterHandler(video)}
+                >
+                  <AddTaskOutlinedIcon />
+                  <small>Watchlater</small>
+                </button>
               </div>
-            </Model>
+              <Model showModel={showModel} setShowModel={setShowModel}>
+                <div>
+                  add to
+                  <ul>
+                    {playlists.map(({ id, ...rest }) => (
+                      <li key={id}>
+                        <PlaylistCheckBox
+                          playlistId={id}
+                          video={video}
+                          {...rest}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={showNameInput}
+                      onChange={() => setShowNameInput((prev) => !prev)}
+                    />
+                    Create New Playlist
+                  </label>
+                  {showNameInput && (
+                    <div>
+                      <label>name</label>
+                      <input
+                        class="input"
+                        type="text"
+                        value={playlistName}
+                        onChange={(e) => setPlaylistName(e.target.value)}
+                      />
+                      <button
+                        className="btn bg-primary mt-1 mr-1 align-end"
+                        onClick={() =>
+                          createNewPlaylist({
+                            name: playlistName,
+                            video,
+                          })
+                        }
+                      >
+                        Create
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </Model>
+            </div>
           </div>
-        </div>
+        )
       )}
+
       <ToastContainer />
     </Home>
   );

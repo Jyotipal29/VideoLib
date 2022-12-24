@@ -27,7 +27,7 @@
     top: 50px;
     left:0;
 background-color: #181818;
-
+z-index: 9;
 
 }
 .sidebar{
@@ -41,7 +41,7 @@ background-color: #181818;
 }
 .home-content{
     width:calc(100vw - 240px);
-    z-index: 10;
+    z-index:9;
 }
 
 .home-cat-wrapper{
@@ -51,7 +51,7 @@ background-color: #181818;
     padding-left: 14px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
+z-index: 9;
 }
 .home-cat-chip{
     margin:12px 16px;
