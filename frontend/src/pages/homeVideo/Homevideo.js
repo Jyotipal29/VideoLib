@@ -6,7 +6,6 @@ import Filter from "../../components/filter/Filter";
 const Homevideo = () => {
   const {
     videoState: { videos, searchQuery },
-    videoDispatch,
   } = useVideo();
   const filVideos = () => {
     let newVideos = videos;

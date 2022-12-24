@@ -1,11 +1,9 @@
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import styled from "styled-components";
 import { Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
-import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import { useUser } from "../../context/userContext/userContext";
 import { useNavigate } from "react-router-dom";
 import { useVideo } from "../../context/videoContext/videoContext";

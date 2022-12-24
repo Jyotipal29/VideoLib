@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import styled from "styled-components";
 import { api } from "../../constants/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext/userContext";
@@ -16,9 +15,7 @@ const SignIn = () => {
   const {
     state: { user },
     dispatch,
-    token,
     setToken,
-    isAuth,
     setIsAuth,
   } = useUser();
   // console.log(user);

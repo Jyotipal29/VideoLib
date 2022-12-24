@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./liked.css";
 import Card from "../../components/videoCrad/Card";
 import { api } from "../../lib/axios";
-// import Home from "@mui/icons-material/Home";
 import Home from "../home/Home";
 const LikedVideos = () => {
   const [loading, setLoading] = useState(true);

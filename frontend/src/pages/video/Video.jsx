@@ -2,16 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import styled from "styled-components";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import "./video.css";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
-import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
-import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import uuid from "react-uuid";
 import { useLocation, useParams } from "react-router-dom";
 

@@ -2,7 +2,6 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useState } from "react";
-import styled from "styled-components";
 import { api } from "../../constants/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext/userContext";
@@ -20,7 +19,7 @@ const Register = () => {
     dispatch,
     token,
     setToken,
-    isAuth,
+
     setIsAuth,
   } = useUser();
   // console.log(user);

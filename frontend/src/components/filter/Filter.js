@@ -6,7 +6,7 @@ import cat from "../../data";
 import { useVideo } from "../../context/videoContext/videoContext";
 const Filter = () => {
   const {
-    videoState: { videos, searchQuery },
+    videoState: { videos },
     videoDispatch,
   } = useVideo();
   const [currentTag, setCurrentTag] = useState(null);
